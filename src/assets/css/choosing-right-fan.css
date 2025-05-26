@@ -1,0 +1,37 @@
+.ChoosingRightFan{
+    background-color: #fff;
+    padding: 80px 0 40px;
+}
+.choosing-box{
+    background-color: #F6F6F6;
+    padding: 60px;
+}
+.choosing-box .content {
+    margin-left: 100px;
+padding:30px 20px 20px;
+}
+.choosing-box .content h2{
+    font-size: 26px;
+    font-family: boldInter;
+    width: 89%;
+    letter-spacing: 1px;
+
+}
+.choosing-box .content p{
+    font-size: 16px;
+    font-family: inter;
+    margin: 30px 0;
+}
+.choosing-box .content button {
+    border: 1px solid #000;
+    border-radius: 4px;
+    padding: 6px 20px 4px;
+    margin-right: 10px;
+    font-family: inter;
+    font-size: 13px;
+    margin: 3px;
+}
+.choosing-box .content .active {
+    color: #fff;
+    background-color: #000;
+}

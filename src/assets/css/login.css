@@ -1,0 +1,112 @@
+.login-box {
+    background: #FAFAFA;
+    padding: 50px 40px;
+    border-radius: 20px;
+    margin: 80px auto;
+    width: 50%;
+    box-shadow: 2px 2px 16px #9191918f;
+    font-family: inter;
+}
+.login{
+    background:url(../image/loginBg.png) ;
+    background-size: cover;
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+}
+.login-box h2{
+    font-size: 30px;
+    font-family: boldInter;
+}
+.login-box p{
+    font-family: 'inter';
+    font-size: 16px;
+    margin: 10px 0 25px;
+}
+.login-box .form-control , .update-box .form-control  {
+    background: transparent !important;
+    border: none;
+    border: 1px solid #00000021 !important;
+    border-radius: 0;
+    padding: 15px 15px;
+    font-size: 16px;
+    color: #00000065 !important;
+    margin-bottom: 40px !important;
+    box-shadow: none !important;
+    font-family: inter;
+    border-radius: 6px;
+}
+
+.login-box .form-check-input {
+    border-color: #000;
+    height: 20px;
+    width: 20px;
+    margin-left: 0px !important;
+    margin-right: 10px;
+}
+.login-box .form-check label{
+    font-family: 'inter';
+    margin: 0;
+    color: #000;
+    margin-top: 2px !important;
+}
+.login-box .form-check label a{
+    color: #3E496A;
+}
+.login-box .add-to-cart-btn {
+    width: 65%;
+    border: none;
+    background: #3E496A;
+    color: #fff;
+    padding: 10px;
+    margin-bottom: 20px;
+    font-family: 'inter';
+    margin: 55px 17% 0;
+    position: relative;
+}
+.login-box .add-to-cart-btn img {
+    position: absolute;
+    right: 29px;
+    height: 15px;
+    top: 14px;
+}
+.otp-sent{
+        width: 100%;
+    border: none;
+    background: #E5EFE5;
+    padding: 8px;
+    border-radius: 6px;
+    font-family: 'inter';
+    color: #287928;
+}
+.updataData .modal-content {
+    width: 120% !important;
+    top: 100px !important;
+    left: -50px !important;
+}
+.update-box{
+    padding: 25px 40px;
+}
+.update-box h2{
+    font-family: 'boldInter';
+    font-size: 21px;
+} 
+.update-box .add-to-cart-btn{
+    width: 70%;
+    margin: 0 15%;
+}
+
+.add-to-cart-btn:disabled{
+    background-color: #00000088;
+}
+ .input-box{
+    position: relative;
+}
+ .input-box small{
+    position: absolute;
+    bottom: -20px;
+    left: 0;
+    font-family: inter;
+    font-size: 11px;
+    color: rgb(227, 22, 22);
+ }

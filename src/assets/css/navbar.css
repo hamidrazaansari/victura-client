@@ -1,0 +1,659 @@
+.navbar {
+    padding: 10px 20px !important;
+    background-color: #F8F9FA !important;
+    position: relative;
+    transition: top 0.3s;
+    z-index: 3 !important;
+}
+.navbar-brand{
+    padding: 0 !important;
+}
+.navbar{
+    padding-right:3rem !important ;
+    padding-left: 3rem !important;
+}
+
+.sticky {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-brand img {
+    height: 75px !important;
+}
+
+.search-product {
+    width: 57%;
+    border-bottom: 1px solid #000;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 42px;
+    color: #000;
+    padding: 0 15px;
+    margin: 0px;
+    margin-bottom: 10px;
+}
+
+.search-product .search-input {
+    width: 90%;
+    border: none;
+    height: 90%;
+    color: #000;
+    font-size: 15px;
+    margin-bottom: 3px;
+    font-family: inter;
+
+}
+
+.search-input:focus {
+    border: none !important;
+    outline: none !important;
+}
+
+.search-btn {
+    border: none;
+    background: transparent;
+}
+
+.search-btn svg {
+    font-size: 22px;
+    color: #000;
+    position: relative;
+    left: 13px;
+    bottom: 1px;
+}
+
+.dropdown-toggle::after {
+    display: none !important;
+}
+
+.nav-link {
+    display: block;
+    padding: var(--bs-nav-link-padding-y) var(--bs-nav-link-padding-x);
+    /* font-size: var(--bs-nav-link-font-size); */
+    font-weight: var(--bs-nav-link-font-weight);
+    /* color: var(--bs-nav-link-color); */
+    text-decoration: none !important;
+    background: 0 0;
+    border: 0;
+    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out;
+    color: #888888 !important;
+    font-size: 15px !important;
+    text-transform: uppercase;
+    margin: 0 14px !important;
+    font-family: inter;
+
+}
+
+.nav-link svg {
+    color: #000;
+    position: relative;
+    bottom: 1px;
+    font-size: 22px;
+    margin: 0;
+}
+
+.nav-dropdown-menu {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.nav-dropdown-menu.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.navbar a {
+    color: #000 !important;
+
+}
+
+.navbar .nav-item {
+    margin: 0 8px;
+    font-family: 'inter';
+}
+
+.navbar .nav-item a , .navDropdown .dropdown-toggle {
+    font-family: 'boldInter' !important;
+    color: #1B1F3B !important;
+    font-size: 17px !important;
+    text-transform: capitalize !important;
+}
+
+.modal-contents .right a {
+    color: #ffffff90;
+}
+
+
+.offcanvas-header {
+    margin-top: 15px;
+}
+
+.offcanvas-header .offcanvas-title {
+    font-family: inter !important;
+    font-size: 20px;
+}
+
+
+
+
+.offcanvas {
+    margin-top: 95px;
+    width: 300px !important;
+    height: 310px !important;
+    overflow-y: scroll !important;
+    transition: all .3s linear !important;
+}
+
+.offcanvas ::-webkit-scrollbar {
+    display: none !important;
+}
+
+.offcanvas-header {
+    padding-bottom: 0 !important;
+    padding-top: 0 !important;
+}
+
+.offcanvas-body {
+    padding-top: 0 !important;
+}
+
+.offcanvas-backdrop.show {
+    opacity: 0 !important;
+}
+
+.offcanvas .btn-close {
+    height: 20px;
+    width: 20px;
+}
+
+.category-menu img {
+    object-fit: cover;
+    height: 200px;
+    width: 100%;
+}
+
+.navDropdown .dropdown-menu {
+    transition: all 2s linear !important;
+}
+
+.navDropdown .dropdown-menu.show {
+    display: block;
+    padding: 25px !important;
+    left: -438px !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    animation: slide 0.4s linear;
+    position: absolute !important;
+    z-index: 1 !important;
+    top: 86px !important;
+    box-shadow: 0px 1px 2px #d7d7d7 !important;
+    border: none !important;
+    text-decoration: none;
+    width: 100vw !important;
+    background: #f8f9fa !important;
+    border-top: 1px solid #0000004f !important;
+}
+.dropdown-item a{
+    text-decoration: none !important;
+    font-family: inter;
+}
+.navDropdown .dropdown-item a span{
+    display: inline-block;
+    width: 90%;
+}
+.navDropdown .dropdown-item{
+    font-size: 16px !important;
+    padding: 10px !important;
+    width: 90%;
+    /* border-radius: 6px !important; */
+    
+}
+.navDropdown .dropdown-item svg{
+    transition: all 0.3s linear;
+}
+
+.navDropdown .dropdown-item:hover{
+    background-color: #fff !important;
+}
+
+.navDropdown .dropdown-item:hover svg{
+    transform: rotate(-180deg);
+}
+.navDropdown .fan h3{
+    font-size: 14px;
+    font-family: boldInter;
+    margin-bottom: 0;
+}
+.navDropdown .fan {
+    margin-left: 74px;
+}
+.navDropdown .fan p{
+    font-size: 12px;
+    font-family: inter;
+}
+.navDropdown .fan-box {
+    height: 258px;
+    width: 307px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.navDropdown .fan-box img{
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    margin-bottom: 30px;
+}
+.navbar-top{
+    background-color: #3E496A;
+    padding: 14px;
+    font-family: inter;
+}
+.navbar-top p{
+    margin-bottom: 0;
+    color: #fff;
+}
+.navbar-top .para{
+    margin-right: 150px;
+    font-family: inter;
+    text-transform: uppercase;
+    font-size: 15px;
+}
+.socal{
+    margin-right: 20px;
+    align-items: center;
+}
+.socal img{
+    height: 15px;
+    width: 15px;
+    margin-right: 10px;
+}
+.socal p{
+    font-size: 13px;
+}
+
+@keyframes slide {
+    from {
+        opacity: 0;
+        transform: translateY(-10%);
+        /* Start from bottom */
+
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0%);
+        /* Start from bottom */
+
+    }
+}
+
+.navDropdown a:active {
+    background-color: #000 !important;
+    color: #fff !important;
+}
+
+.modal-backdrop.show {
+    filter: blur(8px) !important;
+    background-color: #9d9d9d !important;
+    opacity: 0.6 !important;
+
+}
+
+.dropdown-toggle svg{
+    font-size: 14px;
+    color: #1B1F3B;
+    position: relative;
+    bottom: 2px;
+    margin-left: 0px;
+}
+
+/* searchBar design start */
+.searchbar{
+    position: relative;
+}
+
+.searchbar .dropdown-menu.show {
+    display: block;
+    width: 100vw !important;
+    left: -74vw !important;
+    border-radius: 0 !important;
+    overflow: hidden !important;
+    top: 120% !important;
+    box-sizing: border-box;
+}
+.searchBox{
+    padding: 40px;
+    margin: 0 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+.searchBox .form-control{
+    width: 50% !important;
+    box-shadow: none !important;
+    border: 1px solid #333333 !important;
+    padding: 15px 20px !important;
+    color: #333333 !important;
+    font-family: inter;
+}
+.searchBox input::placeholder {
+    color: #333333;
+}
+
+.searchBox .search {
+    position: absolute;
+    right: 27%;
+    top: 52px;
+    background: transparent;
+    border: none;
+}
+
+.btn-check:checked+.btn, .btn.active, .btn.show, .btn:first-child:active, :not(.btn-check)+.btn:active {
+    border: none !important;
+}
+.searchbar .cancel {
+    position: absolute;
+    right: 264px;
+    top: 20px;
+}
+.searchbar .cancel svg {
+    font-size: 20px;
+    color: #333333b5;
+}
+
+
+/* searchBar design end */
+
+@media (max-width:992px) {
+
+    .navbar .container {
+        margin: 0;
+        width: 100% !important;
+        max-width: 100%;
+        flex-wrap: nowrap !important;
+    }
+
+    .navbar-brand img {
+        height: 35px !important;
+    }
+
+    .search-product {
+        height: 35px;
+    }
+
+    .crown h2 {
+        font-size: 11rem !important;
+    }
+
+    .pos {
+        height: 22vh !important;
+    }
+
+    .thank-you-container {
+        height: 470px !important;
+    }
+
+    .thank-you-container .thank-you-wrapper .thank-you p {
+        font-size: 10rem !important;
+    }
+
+
+    .heroBanner img {
+        height: 470px !important;
+    }
+    .nav-col{
+        margin-top: 64px ;
+        padding: 20px !important;
+    }
+
+    .arrow-button {
+        padding: 5px 11px !important;
+        width: 125px !important;
+        margin-top: 0px;
+        font-size: 15px;
+    }
+    .arrow-button-outline {
+        padding: 5px 14px !important;
+        width: 125px !important;
+        margin-top: 15px !important;
+        font-size: 15px;
+    }
+    .nav-col a {
+        color: #000 !important;
+        font-size: 17px;
+        margin: 5px 0;
+    }
+}
+@media (max-width:767px) {
+    .navbar-brand img {
+        height: 31px !important;
+    }
+
+    .search-product {
+        height: 33px;
+        width: 75%;
+    }
+
+    .search-btn svg {
+        font-size: 21px;
+    }
+
+    .crown h2 {
+        font-size: 9rem !important;
+    }
+
+    .pos {
+        height: 20vh !important;
+    }
+
+    .thank-you-container {
+        height: 400px !important;
+    }
+
+    .thank-you-container .thank-you-wrapper .thank-you p {
+        font-size: 8rem !important;
+    }
+
+    .heroBanner img {
+        height: 400px !important;
+    }
+
+    .thank-you-container .thank-you-wrapper .thank-you {
+        height: 400px !important;
+    }
+    .navbar{
+        padding-right:1rem !important ;
+        padding-left: 1rem !important;
+    }
+
+}
+
+@media (max-width:520px) {
+
+    .navbar {
+        padding: 20px 0 !important;
+    }
+
+    .dropdown-menu[data-bs-popper] {
+        left: unset !important;
+        right: 10px;
+        top: 100%;
+        margin-top: var(--bs-dropdown-spacer);
+    }
+
+    .crown h2 {
+        font-size: 7rem !important;
+    }
+
+    .pos {
+        height: 18vh !important;
+    }
+
+    .thank-you-container .thank-you-wrapper .thank-you p {
+        font-size: 5rem !important;
+    }
+
+    .thank-you-container {
+        height:  60vh  !important;
+    }
+
+    .thank-you-container .thank-you-wrapper .thank-you {
+        height:  60vh  !important;
+    }
+
+    .heroBanner img , .heroBanner video {
+        height: 60vh !important;
+    }
+
+    .navbar-brand {
+        margin: 0 !important;
+    }
+
+    .search-product {
+        padding-left: 0;
+        width: 45%;
+    }
+
+    .navbar-toggler {
+        border: none !important;
+    }
+    .search-product {
+        padding-left: 0;
+        width: 60%;
+        margin-left: 0px;
+    }
+    .nav-col{
+        top: -20px !important;
+        padding-top: 20px;
+    }
+    .nav-col .offcanvas-body{
+        height: 100% !important;
+        position: relative;
+        z-index: 2;
+    }
+    .nav-col .dropdown-menu.show {
+        display: block;
+        padding: 4px 12px 16px !important;
+        left: -37px  !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        animation: slide 0.4slinear;
+        position: absolute !important;
+        z-index: 1 !important;
+        top: 33px !important;
+        box-shadow: 0px 1px 2px #d7d7d7 !important;
+    }
+    .product-dropdown .dropdown-menu.show {
+        display: block;
+        padding: 4px 12px 16px !important;
+        left: -110px !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        animation: slide 0.4slinear;
+        position: absolute !important;
+        background: transparent !important;
+        z-index: 1 !important;
+        top: 0px;
+        width: 300%;
+        box-shadow: 0px 1px 2px #d7d7d7 !important;
+    }
+    .product-dropdown a{
+        background: transparent !important;
+        color: #000 !important;
+    }
+
+    .nav-col a{
+        color: #000 !important;
+        font-size: 17px;
+    }
+    .search-product .search-input{
+        font-size: 13px;
+    }
+    
+.search-box .search-img {
+    height: 30px;
+    width: 30px;
+}
+
+.search-box p {
+    font-family: inter;
+    font-size: 12px;
+}
+
+.search-box h3 {
+    font-family: 'inter';
+    font-size: 13px;
+}
+.menu-img img {
+    height: 130px !important;
+    object-fit: cover;
+    margin: 20px;
+    margin-left: 0 !important;
+}
+.menu-cat-button {
+    margin-left: 40px !important;
+}
+.menu-img h2{
+    font-size: 15px !important;
+    margin: 0 !important;
+}
+.nav-col {
+    margin-top: 100px;
+    padding: 20px !important;
+}
+.navbar{
+    padding: 20px 10px !important;
+}
+.navbar-resp {
+    width: 63%;
+}
+
+    
+}
+
+
+@media (max-width:430px) {
+    .crown h2 {
+        font-size: 5rem !important;
+    }
+
+    .pos {
+        height: 18vh !important;
+    }
+
+    .thank-you-container {
+        height: 300px !important;
+    }
+
+    .thank-you-container .thank-you-wrapper .thank-you {
+        height: 300px !important;
+    }
+
+    .heroBanner img {
+        height: 300px !important;
+    }
+    .search-btn{
+        background-color: transparent;
+    }
+    .search-btn svg {
+        font-size: 14px;
+        margin-right: -5px;
+    }
+    .navbar-resp{
+        width: 73% !important;
+    }
+    .navbar{
+        flex-wrap: wrap;
+    }
+    .search-product {
+        margin-left: 15px;
+    }
+}

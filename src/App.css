@@ -1,0 +1,12 @@
+
+@font-face{
+    src: url(./assets/font/Inter_18pt-Regular.ttf);
+    font-family: inter;
+}
+@font-face{
+    src: url(./assets/font/Inter_18pt-SemiBold.ttf);
+    font-family: boldInter;
+}
+body{
+    overflow-x: hidden;
+}

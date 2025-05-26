@@ -1,0 +1,113 @@
+.blog{
+    padding: 40px 0;
+}
+.blog-box .blog-img{
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+}
+.blog-box{
+    height:400px ;
+    position: relative;
+    border-radius: 6px !important;
+    overflow: hidden;
+    margin: 10px 0;
+}
+.blog-box .text {
+    position: absolute;
+    bottom: 0;
+    padding: 50px 22px 10px;
+    background: linear-gradient(0deg, #000000e8, #00000000 92%);
+    width: 100%;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+
+}
+.blog-box .text h3 {
+    font-family: boldInter;
+    font-size: 13px;
+    margin: 0;
+    color: #fff;
+}
+.blog-box .text button , .ReadMore{
+    border: none;
+    background: transparent;
+    color: #fff;
+    font-family: 'inter';
+    font-size: 12px;
+    padding: 0;
+}
+.blog-box .text button svg {
+    background: #fff;
+    color: #000;
+    margin-left: 4px;
+    border-radius: 50%;
+}
+.readMore{
+    border: none;
+    background: transparent;
+    font-family: 'inter';
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 130px;
+    padding: 8px;
+    margin-bottom: 45px;
+    color: #000;
+    border-radius: 6px;
+    border: 1px solid #000;
+}
+.readMore svg{
+        margin-left: 5px;
+    font-size: 24px;
+}
+.blog .content p{
+    font-family: 'inter';
+    font-size: 13px;
+    width: 51%;
+    margin-bottom: 20px;
+}
+.blog .content h2{
+    font-family: inter;
+    font-size: 24px;
+    color: #000;
+}
+.blog-details h2{
+    font-family: boldInter;
+    font-size: 25px;
+}
+.blog-details{
+    padding: 40px 0;
+    margin: 0 20%;
+}
+.date p{
+        font-family: 'inter';
+    font-size: 15px;
+    margin-right: 25px;
+    margin-bottom: 0 !important;
+}
+.socal-blog img{
+    height: 20px;
+    margin: 0 10px;
+}
+.blog-details p{
+    font-family: 'inter';
+    font-weight: 300;
+    font-size: 15px;
+    margin-bottom: 25px;
+}
+.blog-details h2{
+    font-family: 'boldInter';
+    font-size: 25px !important;
+    margin-bottom: 30px;
+}
+.blog-details h3{
+        font-family: 'boldInter';
+        font-size: 18px;
+        margin-bottom: 15px;
+}
+.blog-details ul li , .blog-details ol li{
+    font-family: inter;
+    margin-bottom: 10px;
+}

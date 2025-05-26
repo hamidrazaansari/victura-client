@@ -1,0 +1,104 @@
+.contactUs{
+    padding: 40px 0;
+}
+.form-content{
+    padding: 20px 100px;
+}
+.form-content h2{
+    font-size: 40px;
+    font-family: 'inter';
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+.form-content p{
+    font-family: 'inter';
+    font-size: 14px;
+}
+.form-box h2 {
+    color: #121212;
+    font-family: inter;
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 0;
+}
+.form-box p{
+    font-family: inter;
+    font-size: 13px;
+}
+.form-box .form-control , .contact-form-box .form-control{
+    border: none !important;
+    box-shadow: none !important;
+    border: 1px solid #D2D2D2 !important;
+    border-radius: 6 !important;
+    margin-bottom: 15px;
+    font-family: 'inter';
+    font-size: 14px;
+    padding: 10px 13px;
+    color: #929DAB !important;
+}
+.form-box .submit-btn , .contact-form-box .submit-btn{
+    background: #3E496A;
+    border: none;
+    color: #fff;
+    height: 40px;
+    width: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'inter';
+    border-radius: 6px;
+    margin: 25px 0px;
+}
+.form-box .form-check-input{
+    border-color: #121212 !important;
+    margin-left: 0 !important;
+    margin-right: 10px;
+}
+
+.contact-us{
+    padding: 40px 0;
+    padding-top: 10px;
+}
+.contact-us .information{
+    background: #FAFAFA;
+    margin: 28px 20px;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    box-shadow: 2px 2px 13px #00000026;
+}
+.contact-us .information h3{
+    font-family: 'boldInter';
+    font-size: 17px;
+    margin: 10px 0;
+}
+.contact-us .information a{
+    color: #333333;
+    font-family: inter;
+}
+.contact-form h2{
+    font-family: 'boldInter';
+    font-size: 25px;
+}
+
+
+.contact-form-box {
+    padding: 0px 0px;
+    border-radius: 20px;
+    margin: 45px 0;
+    width: 50%;
+}
+.contact-form-box .submit-btn{
+    font-family: inter;
+    font-size: 15px;
+    border-radius: 6px !important;
+    margin-top: 60px;
+}
+.contact-form-box .form-control {
+    margin-bottom: 24px;
+    font-size: 16px;
+    padding: 12px 16px !important;
+}

@@ -1,0 +1,83 @@
+.admin {
+    padding: 40px 0;
+}
+
+.admin .nav-tabs {
+    border-bottom: 0 !important;
+}
+
+.admin .nav-tabs .nav-item .nav-link {
+    background-color: #ECECEC;
+    color: #000 !important;
+    font-size: 16px !important;
+    padding: 15px 20px;
+    border: none !important;
+    border-radius: 6px !important;
+    font-family: inter;
+    text-transform: capitalize !important;
+    width: 160px;
+    margin: 0 5px !important;
+}
+
+.admin .nav-tabs .nav-item .active {
+    background: #3E496A !important;
+    color: #fff !important;
+}
+
+.dashboard {
+    border: 1px solid #9898984f;
+    padding: 30px;
+    border-radius: 8px;
+    margin-left: 5px;
+}
+.dashboard h2{
+        font-family: 'inter';
+    font-size: 20px;
+}
+.dashboard p{
+        font-family: 'inter';
+    font-size: 14px;
+    margin-bottom: 0;
+}
+.dashboard .input-box label{
+  white-space: nowrap;
+  font-family: inter;
+  font-size: 15px;
+  margin-right: 10px;
+}
+.dashboard .input-box {
+    margin: 10px 0;
+    height: 50px;
+}
+.dashboard .input-box input{
+    height: 100%;
+    font-family: inter;
+    font-size: 15px;
+    margin-bottom: 10px !important;
+    width: 100% !important;
+}
+.dashboard h3{
+        font-family: 'boldInter';
+    font-size: 22px;
+    margin-bottom: 21px;
+}
+.dashboard .add-to-cart-btn
+ {
+    width: unset;
+    width: 248px;
+    margin-left: 73px;
+    margin-top: 15px;
+}
+.admin .logout{
+    border: none;
+    background-color: #ECECEC;
+    border: none;
+    border-radius: 6px;
+    padding: 15px 20px;
+    position: absolute;
+    width: 150px;
+    font-size: 16px;
+    font-family: inter;
+    top: 0;
+    right: 36%;
+}

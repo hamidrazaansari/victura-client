@@ -1,0 +1,131 @@
+.category{
+    background-color: #F9F9F9;
+    padding: 80px 0 40px;
+}
+.heading {
+    font-family: 'inter';
+    font-size: 20px;
+    text-align: center;
+    color: #333333;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 30px;
+    font-weight: 600;
+}
+ .heading span{
+    height: 2px;
+    width: 20px;
+    display: inline-block;
+    background-color: #333333;
+    border-radius: 3px;
+    margin: 10px;
+}
+.category .image-box {
+    width: 45%;
+    position: relative;
+    margin: 6px 5px;
+    height: 300px;
+}
+.category .image-box img {
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
+}
+
+.category .image-box-long{
+    position: relative;
+    height: 613px;
+    margin: 5px;
+    width: 98%;
+}
+.category .image-box-long img{
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
+}
+.category .image-box-long::after ,.category .image-box::after  {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 30%;
+    width: 100%;
+    z-index: 5;
+    color: #fff;
+    display: block;
+    padding: 53px;
+    background: linear-gradient(0deg, #00000094, #00000000 92%);
+    text-align: start;
+}
+.category .image-box .fan-btn , .category .image-box-long .fan-btn {
+    position: absolute;
+    bottom: 20px;
+    left: 17%;
+    z-index: 7;
+    background-color: #3E496A;
+    margin: 0 auto;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    width: 65%;
+    font-family: 'inter';
+}
+.category .image-box-long .fan-btn{
+    font-size: 25px;
+}
+.category .image-box-long h3{
+    position: absolute;
+    bottom: 85px;
+    text-align: center;
+    left: 38%;
+    font-size: 48px;
+    font-family: 'inter';
+    font-weight: 700;
+    color: #fff;
+    z-index: 7;
+}
+
+
+/* feature style */
+
+.features{
+    margin: 40px 0;
+    padding: 30px 0;
+    font-family: inter;
+    border-top: 1px solid #0000001c;
+    border-bottom: 1px solid #0000001c;
+}
+.borders{
+    border: none !important;
+    border-left: 2px solid #eeeeee !important;
+    border-right: 2px solid #eeeeee !important;
+}
+.feature p{
+    margin: 0;
+    color: #121212;
+    font-size: 13px;
+}
+.feature h3{
+    font-size: 22px;
+    margin: 0 !important;
+    margin: 5px 0 !important;
+    color: #717171;
+    font-weight: 700;
+}
+.feature img{
+    height: 50px;
+    width: 50px;
+    margin: 10px 0
+}
+.feature-boxes{
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    font-family: inter;
+    margin: 40px 20px;
+}
+.feature-boxes p{
+    margin-top: 20px;
+}
