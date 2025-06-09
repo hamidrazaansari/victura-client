@@ -6,6 +6,7 @@ import Watsapp from '../assets/image/socalMedia/weatsapp_blog.png'
 import Twitter from '../assets/image/socalMedia/twitter.png'
 import '../assets/css/blog.css'
 import BlogBanenr from '../assets/image/blogDetailsBanner.png'
+import BlogSection from '../components/BlogSection'
 
 function BlogDetails() {
     return (
@@ -102,7 +103,7 @@ function BlogDetails() {
                     </ul>
                 </div>
             </div>
-
+            <BlogSection heading={`Related Blog`}/>
             <Footer />
         </div>
     )

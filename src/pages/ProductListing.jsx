@@ -1,21 +1,43 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import ProductListingBanner from '../assets/image/productLitingBanner.png'
 import NavBar from '../components/NavBar'
 import Footer from '../components/Footer'
 import Dropdown from 'react-bootstrap/Dropdown';
-import { Link } from 'react-router-dom';
-import { IoIosArrowDown } from "react-icons/io";
 import '../assets/css/productListing.css'
 import ProductBox from '../components/ProductBox';
 import SortImg from '../assets/image/Sort.png'
-import { Accordion } from 'react-bootstrap';
-import PriceSlider from '../components/PriceSlider';
+import axios from 'axios'
+import { BaseUrl, FileUrl } from '../utills/BaseUrl'
+import ProductSidebar from '../components/ProductSidebar';
+import { useLocation } from 'react-router-dom';
 
 function ProductListing() {
     const [show, setShow] = useState(false);
-    const [checked, setChecked] = useState(false);
 
     const [selectedSort, setSelectedSort] = useState('');
+
+    const [products, setProducts] = useState([]);
+
+    const location = useLocation()
+    const categoryId = location.state;
+    console.log(categoryId);
+    
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                
+                const response = !categoryId ?  await axios.get(`${BaseUrl}/products`) : await axios.get(`${BaseUrl}/products?category=${categoryId}`) ;
+
+                setProducts(response.data?.body);
+            } catch (error) {
+                console.error('Failed to fetch categories:', error);
+            }
+        };
+
+        fetchData();
+    }, [categoryId]);
+
 
     const handleSortChange = (value) => {
         setSelectedSort(value);
@@ -77,7 +99,7 @@ function ProductListing() {
                                         </div>
                                     </Dropdown.Item>
                                     <Dropdown.Item as="button" onClick={() => handleSortChange('Arrivals')}>
-                                            <div className="sortingOption">
+                                        <div className="sortingOption">
                                             <input
                                                 type="radio"
                                                 id="Arrivals"
@@ -99,236 +121,19 @@ function ProductListing() {
 
                     <div className="row">
                         <div className="col-lg-3 p-0 ">
-                            <div className="sidebar">
-                                <Accordion defaultActiveKey={["0", "1", "2", "3"]} alwaysOpen>
-                                    <Accordion.Item eventKey="0">
-                                        <Accordion.Header>Category</Accordion.Header>
-                                        <Accordion.Body>
-                                            <ul className="list-unstyled ms-2">
-                                                <li className='filterOption'>
-                                                    <div class="form-check ps-0">
-                                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
-                                                        <label class="form-check-label" for="flexCheckDefault">
-                                                            BLDC Ceiling Fan
-                                                        </label>
-                                                    </div>
-                                                </li>
-                                                <li className='filterOption'>
-                                                    <div class="form-check ps-0">
-                                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault1" />
-                                                        <label class="form-check-label" for="flexCheckDefault1">
-                                                            Induction Selling Fan
-                                                        </label>
-                                                    </div>
-                                                </li>
-                                                <li className='filterOption'>
-                                                    <div class="form-check ps-0">
-                                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault2" />
-                                                        <label class="form-check-label" for="flexCheckDefault2">
-                                                            TPW Fan
-                                                        </label>
-                                                    </div>
-                                                </li>
-                                                <li className='filterOption'>
-                                                    <div class="form-check ps-0">
-                                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault3" />
-                                                        <label class="form-check-label" for="flexCheckDefault3">
-                                                            Ventilator Fan
-                                                        </label>
-                                                    </div>
-                                                </li>
-                                                <li className='filterOption'>
-                                                    <div class="form-check ps-0">
-                                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault4" />
-                                                        <label class="form-check-label" for="flexCheckDefault4">
-                                                            Exhaust Fan
-                                                        </label>
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                        </Accordion.Body>
-                                    </Accordion.Item>
-                                    <Accordion.Item eventKey="1">
-                                        <Accordion.Header>Color</Accordion.Header>
-                                        <Accordion.Body>
-                                            <ul className="list-unstyled ms-2">
-                                                <li className='filterOption'>
-                                                    <div class="form-check ps-0">
-                                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault5" />
-                                                        <label class="form-check-label" for="flexCheckDefault5">
-                                                            Black
-                                                        </label>
-                                                    </div>
-                                                </li>
-                                                <li className='filterOption'>
-                                                    <div class="form-check ps-0">
-                                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault6" />
-                                                        <label class="form-check-label" for="flexCheckDefault6">
-                                                            Brown
-                                                        </label>
-                                                    </div>
-                                                </li>
-                                                <li className='filterOption'>
-                                                    <div class="form-check ps-0">
-                                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault7" />
-                                                        <label class="form-check-label" for="flexCheckDefault7">
-                                                            Grey
-                                                        </label>
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                        </Accordion.Body>
-                                    </Accordion.Item>
-                                    <Accordion.Item eventKey="3">
-                                        <Accordion.Header>Features</Accordion.Header>
-                                        <Accordion.Body>
-                                            <ul className="list-unstyled ms-2">
-                                                <li className='filterOption'>
-                                                    <div class="form-check ps-0">
-                                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault20" />
-                                                        <label class="form-check-label" for="flexCheckDefault20">
-                                                            WiFi Operated
-                                                        </label>
-                                                    </div>
-                                                </li>
-                                                <li className='filterOption'>
-                                                    <div class="form-check ps-0">
-                                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault6" />
-                                                        <label class="form-check-label" for="flexCheckDefault6">
-                                                            Alexa/Voice Operated
-                                                        </label>
-                                                    </div>
-                                                </li>
-                                                <li className='filterOption'>
-                                                    <div class="form-check ps-0">
-                                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault7" />
-                                                        <label class="form-check-label" for="flexCheckDefault7">
-                                                            Remote Operated
-                                                        </label>
-                                                    </div>
-                                                </li>
-                                                <li className='filterOption'>
-                                                    <div class="form-check ps-0">
-                                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault7" />
-                                                        <label class="form-check-label" for="flexCheckDefault7">
-                                                            Regulator Operated
-                                                        </label>
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                        </Accordion.Body>
-                                    </Accordion.Item>
-                                    <Accordion.Item eventKey="2" >
-                                        <Accordion.Header>Sweep size</Accordion.Header>
-                                        <Accordion.Body>
-                                            <ul className="list-unstyled ms-2">
-                                                <li className='filterOption'>
-                                                    <div class="form-check ps-0">
-                                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault8" />
-                                                        <label class="form-check-label" for="flexCheckDefault8">
-                                                            600mm
-                                                        </label>
-                                                    </div>
-                                                </li>
-                                                <li className='filterOption'>
-                                                    <div class="form-check ps-0">
-                                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault9" />
-                                                        <label class="form-check-label" for="flexCheckDefault9">
-                                                            900mm
-                                                        </label>
-                                                    </div>
-                                                </li>
-                                                <li className='filterOption'>
-                                                    <div class="form-check ps-0">
-                                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault10" />
-                                                        <label class="form-check-label" for="flexCheckDefault10">
-                                                            1200mm
-                                                        </label>
-                                                    </div>
-                                                </li>
-                                                <li className='filterOption'>
-                                                    <div class="form-check ps-0">
-                                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault11" />
-                                                        <label class="form-check-label" for="flexCheckDefault11">
-                                                            1400mm
-                                                        </label>
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                        </Accordion.Body>
-                                    </Accordion.Item>
-                                </Accordion>
-
-                                <PriceSlider />
-                            </div>
+                            <ProductSidebar/>
                         </div>
                         <div className="col-lg-9">
                             <div className="row">
-                                <div className="col-lg-4">
-                                    <div className="listingProducts">
-                                        <Link to={'/product-details'}>
-                                            <ProductBox />
-                                        </Link>
-                                    </div>
-                                </div>
-                                <div className="col-lg-4">
-                                    <div className="listingProducts">
-                                        <ProductBox />
-                                    </div>
-                                </div>
-                                <div className="col-lg-4">
-                                    <div className="listingProducts">
-                                        <ProductBox />
-                                    </div>
-                                </div>
-                                <div className="col-lg-4">
-                                    <div className="listingProducts">
-                                        <ProductBox />
-                                    </div>
-                                </div>
-                                <div className="col-lg-4">
-                                    <div className="listingProducts">
-                                        <ProductBox />
-                                    </div>
-                                </div>
-                                <div className="col-lg-4">
-                                    <div className="listingProducts">
-                                        <ProductBox />
-                                    </div>
-                                </div>
-                                <div className="col-lg-4">
-                                    <div className="listingProducts">
-                                        <ProductBox />
-                                    </div>                                </div>
-                                <div className="col-lg-4">
-                                    <div className="listingProducts">
-                                        <ProductBox />
-                                    </div>                                </div>
-                                <div className="col-lg-4">
-                                    <div className="listingProducts">
-                                        <ProductBox />
-                                    </div>                                </div>
-                                <div className="col-lg-4">
-                                    <div className="listingProducts">
-                                        <ProductBox />
-                                    </div>                                </div>
-                                <div className="col-lg-4">
-                                    <div className="listingProducts">
-                                        <ProductBox />
-                                    </div>                                </div>
-                                <div className="col-lg-4">
-                                    <div className="listingProducts">
-                                        <ProductBox />
-                                    </div>                                </div>
-                                <div className="col-lg-4">
-                                    <div className="listingProducts">
-                                        <ProductBox />
-                                    </div>                                </div>
-                                <div className="col-lg-4">
-                                    <div className="listingProducts">
-                                        <ProductBox />
-                                    </div>
-                                </div>
+                                    {products && products.map((product , index) => {
+                                        return (
+                                            <div className="col-lg-4">
+                                                <div className="listingProducts" key={index}>
+                                                        <ProductBox product={product} />
+                                                </div>
+                                            </div>
+                                        )
+                                    })}
                             </div>
                         </div>
                     </div>

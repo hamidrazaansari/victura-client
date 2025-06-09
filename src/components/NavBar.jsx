@@ -50,8 +50,8 @@ function NavBar() {
 
             <HoverDropdown />
 
-            <Nav.Item href="/">
-              <Nav.Link >About Us</Nav.Link>
+            <Nav.Item>
+              <Nav.Link as={Link} to={'/about'} >About Us</Nav.Link>
             </Nav.Item>
 
             <Nav.Item href="/">

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import NavBar from '../components/NavBar'
 import Footer from '../components/Footer'
 import Tab from 'react-bootstrap/Tab';
@@ -13,23 +13,13 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 function Admin() {
-    //   const token = localStorage.getItem('token');
 
-    // useEffect(async()=>{
-    //     try {
-    //                      const response = await axios.get(`${BaseUrl}/users/profile`, {
-    //     headers: {
-    //       Authorization: `Bearer ${token}`,
-    //     }
-    //   });
-    //   console.log(response);
+    const [edit, setEdit] = useState(false)
+    const [address, setAddress] = useState(false)
+    const token = localStorage.getItem('token');
 
-    //     } catch (error) {
-    //         console.log(error);
 
-    //     }
 
-    // },[])
     const navigate = useNavigate()
 
     const handleLogOut = (e) => {
@@ -37,6 +27,10 @@ function Admin() {
         localStorage.removeItem('token')
         navigate('/')
 
+    }
+
+    const handleAddAddress = () => {
+        setEdit(true)
     }
 
     return (
@@ -48,7 +42,7 @@ function Admin() {
                 </div>
             </div>
             <div className="admin">
-                <div className="container" style={{position:"relative"}}>
+                <div className="container" style={{ position: "relative" }}>
                     <button onClick={handleLogOut} className='logout' >Log out
                     </button>
                     <Tabs
@@ -59,15 +53,48 @@ function Admin() {
                         <Tab eventKey="Dashboard" title="Dashboard">
                             <Dashboard />
                         </Tab>
-                        <Tab eventKey="Orders" title="Orders">
+                        <Tab eventKey="Orders" title="Orders (0)">
                             <Order />
                         </Tab>
-                        <Tab eventKey="home" title="Address">
-                            <Address />
+                        <Tab eventKey="home" title="Address (0)">
+                            <>
+                                {
+                                    !edit ?
+                                        <div className='dashboard d-flex align-items-center justify-content-center flex-column'>
+                                            <p className='fs-5 text-secondary'>You haven't saved any addresses yet.</p>
+                                            <button className='add-to-cart-btn  mx-0' style={{ padding: "6px", paddingBottom: "8px", width: "200px" }} onClick={handleAddAddress} > <span className='fs-4 me-1'>+</span> Add Address</button>
+                                        </div>
+                                        :
+                                        <Address />
+                                }
+
+                                {!address ?
+                                    <div className='address'>
+                                        <h3>Default Adresses</h3>
+                                        <div className="addBox">
+                                            <p>Wahid Alam  <br />
+                                                India  <br />
+                                                Shibaji park
+                                                Durgapur  <br />
+                                                West bengal  <br />
+                                                8293088246  <br />
+                                                713212</p>
+                                                <div className="d-flex">
+                                                    <button>Edit</button>
+                                                    <button>Delete</button>
+                                                </div>
+                                        </div>
+                                    </div>
+                                    :
+                                    <>
+                                    </>
+                                }
+
+                            </>
                         </Tab>
-                        <Tab eventKey="Account" title="Account Details">
+                        {/* <Tab eventKey="Account" title="Account Details">
                             <AccountDetails />
-                        </Tab>
+                        </Tab> */}
                     </Tabs>
 
                 </div>

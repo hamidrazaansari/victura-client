@@ -96,7 +96,7 @@
 .cartSidebar .cart-box .contnet .remove{
     position: absolute;
     bottom: 25px;
-    right: -40px;
+    left: 300px;
     color: #000;
 }
 .cartSidebar .cart-box .contnet .remove img{
@@ -150,4 +150,21 @@
 .product-container{
     height: 70%;
     overflow-y: scroll;
+}
+
+.cart-indecator{
+    position: absolute;
+    top: 0;
+    left: 35px;
+    color: #d6241c;
+    font-size: 12px;
+}
+.related-product .slick-dots li {
+    position: relative;
+    display: inline-block;
+    width: 17px;
+    height: 20px;
+    margin: 0 0px;
+    padding: 0;
+    cursor: pointer;
 }

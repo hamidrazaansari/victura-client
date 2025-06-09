@@ -68,7 +68,7 @@
     margin-left: 73px;
     margin-top: 15px;
 }
-.admin .logout{
+.admin .logout {
     border: none;
     background-color: #ECECEC;
     border: none;
@@ -79,5 +79,33 @@
     font-size: 16px;
     font-family: inter;
     top: 0;
-    right: 36%;
+    left: 526px;
+}
+.address{
+    margin: 40px 20px;
+    display: flex;
+    flex-wrap: wrap;
+}
+.address h3{
+    font-family: 'inter';
+    font-weight: 600;
+    font-size: 20px;
+    width: 100%;
+}
+.addBox{
+    width: 240px;
+    padding: 26px 38px;
+    border: 1px solid #9898984f;
+    font-family: 'inter';
+    font-size: 19px;
+    line-height: 32px;
+    border-radius: 6px;
+    margin: 10px;
+}
+.address button{
+    border: none;
+    background: transparent;
+    text-decoration: underline;
+    font-family: 'inter';
+
 }

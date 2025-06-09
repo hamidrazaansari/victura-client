@@ -16,12 +16,12 @@
 .blog-box .text {
     position: absolute;
     bottom: 0;
-    padding: 50px 22px 10px;
+    left: 0;
+    padding: 275px 0px 10px;
     background: linear-gradient(0deg, #000000e8, #00000000 92%);
     width: 100%;
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
-
 }
 .blog-box .text h3 {
     font-family: boldInter;

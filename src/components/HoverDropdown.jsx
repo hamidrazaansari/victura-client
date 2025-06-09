@@ -1,67 +1,79 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Dropdown from 'react-bootstrap/Dropdown';
 import { Link } from 'react-router-dom';
 import { IoIosArrowDown, IoIosArrowForward } from "react-icons/io";
-import BldcFan from '../assets/image/bldcFan.png';
-import CilingFan from '../assets/image/product/fan.png';
-
-const productData = {
-  bldc: {
-    image: BldcFan,
-    fans: [
-      { name: "BLDC Model A", count: 2 },
-      { name: "BLDC Model B", count: 3 },
-    ],
-  },
-  induction: {
-    image: CilingFan,
-    fans: [
-      { name: "Induction Model A", count: 1 },
-      { name: "Induction Model B", count: 2 },
-    ],
-  },
-  tpw: {
-    image: CilingFan,
-    fans: [
-      { name: "TPW Model A", count: 4 },
-      { name: "TPW Model B", count: 2 },
-    ],
-  },
-  ventilation: {
-    image: CilingFan,
-    fans: [
-      { name: "Ventilation Model A", count: 3 },
-      { name: "Ventilation Model B", count: 1 },
-    ],
-  },
-  exhaust: {
-    image: CilingFan,
-    fans: [
-      { name: "Exhaust Model A", count: 2 },
-      { name: "Exhaust Model B", count: 2 },
-    ],
-  },
-};
+import axios from 'axios';
+import { BaseUrl, FileUrl } from '../utills/BaseUrl';
 
 function HoverDropdown({ handleNavClose }) {
   const [show, setShow] = useState(false);
-  const [activeKey, setActiveKey] = useState('bldc');
+  const [categories, setCategories] = useState([]);
+  const [catActiveImage, setActiveCatImage] = useState(categories[1]?.image);
+  const [products, setProducts] = useState([]);
+  const [filteredProducts, setFilteredProducts] = useState([]);
+  const [activeSlug, setActiveSlug] = useState('bldc-ceiling-fan');
+
+  // Fetch categories
+  useEffect(() => {
+    axios.get(`${BaseUrl}/categories`)
+      .then((res) => {
+        const catData = res.data?.body || [];
+        setCategories(catData);
+
+        // Default to BLDC category if exists
+        const bldcCategory = catData.find(cat => cat.slug === 'bldc-ceiling-fan');
+        if (bldcCategory) {
+          setActiveCatImage(bldcCategory.image);
+        }
+      })
+      .catch((err) => console.error("Categories fetch failed", err));
+  }, []);
+
+  // Fetch products
+  useEffect(() => {
+    axios.get(`${BaseUrl}/products`)
+      .then((res) => {
+        const allProducts = res.data?.body || [];
+        setProducts(allProducts);
+
+        // Default filter for bldc category
+        const defaultFiltered = allProducts.filter(p => p?.category?.slug === 'bldc-ceiling-fan');
+        setFilteredProducts(defaultFiltered);
+      })
+      .catch((err) => console.error("Products fetch failed", err));
+  }, []);
 
   const handleMouseEnter = () => setShow(true);
   const handleMouseLeave = () => setShow(false);
 
-  const handleHover = (key) => setActiveKey(key);
+  const handleHover = (slug, categoryImage) => {
+    setActiveCatImage(categoryImage);
+    setActiveSlug(slug)
+    const filtered = products.filter(p => p?.category?.slug === slug);
+    setFilteredProducts(filtered);
+  };
+
+  console.log(activeSlug);
 
   return (
     <>
+      {/* Mobile dropdown */}
       <div className='d-lg-none d-block ms-2'>
-        <Dropdown.Item><Link onClick={handleNavClose} to={'/about'}>BLDC Ceiling Fan</Link></Dropdown.Item>
-        <Dropdown.Item><Link onClick={handleNavClose} to={'/blog'}>Induction Ceiling Fan</Link></Dropdown.Item>
-        <Dropdown.Item><Link onClick={handleNavClose} to={'/environmental'}>TPW Fan</Link></Dropdown.Item>
-        <Dropdown.Item><Link onClick={handleNavClose} to={'/certification'}>Ventilation Fan</Link></Dropdown.Item>
-        <Dropdown.Item><Link onClick={handleNavClose} to={'/catalouge'}>Exhaust Fan</Link></Dropdown.Item>
+        {categories.map((cat, idx) => (
+          <Dropdown.Item
+            key={idx}
+            onMouseEnter={() => handleHover(cat?.slug, cat?.image)}
+          >
+            <Link to='/product' state={cat._id}
+                        style={{ backgroundColor: activeSlug === cat?.slug ? '#fff !important' : 'transparent' }}
+            >
+              <span>{cat.name}</span> <IoIosArrowForward />
+            </Link>
+          </Dropdown.Item>
+        ))}
       </div>
 
+      {/* Desktop dropdown */}
       <Dropdown
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
@@ -75,40 +87,43 @@ function HoverDropdown({ handleNavClose }) {
         <Dropdown.Menu>
           <div className="container">
             <div className="row">
+              {/* Category List */}
               <div className="col-3">
-                <Dropdown.Item onMouseEnter={() => handleHover('bldc')}>
-                  <Link to={'/product'}><span>BLDC Ceiling Fan</span> <IoIosArrowForward /></Link>
-                </Dropdown.Item>
-                <Dropdown.Item onMouseEnter={() => handleHover('induction')}>
-                  <Link to={'/blog'}><span>Induction Ceiling Fan</span> <IoIosArrowForward /></Link>
-                </Dropdown.Item>
-                <Dropdown.Item onMouseEnter={() => handleHover('tpw')}>
-                  <Link to={'/environmental'}><span>TPW Fan</span> <IoIosArrowForward /></Link>
-                </Dropdown.Item>
-                <Dropdown.Item onMouseEnter={() => handleHover('ventilation')}>
-                  <Link to={'/certification'}><span>Ventilation Fan</span> <IoIosArrowForward /></Link>
-                </Dropdown.Item>
-                <Dropdown.Item onMouseEnter={() => handleHover('exhaust')}>
-                  <Link to={'/catalouge'}><span>Exhaust Fan</span> <IoIosArrowForward /></Link>
-                </Dropdown.Item>
+                {categories.map((cat, idx) => (
+                  <Dropdown.Item key={idx} onMouseEnter={() => handleHover(cat?.slug, cat?.image)}>
+                    <Link to='/product' state={cat._id}>
+                      <span>{cat.name}</span> <IoIosArrowForward />
+                    </Link>
+                  </Dropdown.Item>
+                ))}
               </div>
 
+              {/* Category Image */}
               <div className="col-3">
                 <div className="fan-box">
-                  <img src={productData[activeKey].image} alt="fan" className="img-fluid" />
+                  <img src={`${FileUrl}/${catActiveImage}`} alt="fan" className="img-fluid" />
                 </div>
               </div>
 
+              {/* Filtered Products */}
               <div className="col-6">
                 <div className="row">
-                  {productData[activeKey].fans.map((fan, index) => (
-                    <div className="col-6" key={index}>
-                      <div className="fan">
-                        <h3>{fan.name}</h3>
-                        <p>Explore ({fan.count} Products)</p>
+                  {filteredProducts.length > 0 ? (
+                    filteredProducts.map((fan, index) => (
+                      <div className="col-6" key={index}>
+                        <Link style={{textDecoration:"none"}} to={`/product/${fan?.slug}`} state={fan._id}>
+                        <div className="fan">
+                          <h3>{fan.name}</h3>
+                          <p>Explore ({fan?.variants?.length || 0} Variants)</p>
+                        </div>
+                        </Link>
                       </div>
+                    ))
+                  ) : (
+                    <div className="col-12">
+                      <p>No products available</p>
                     </div>
-                  ))}
+                  )}
                 </div>
               </div>
             </div>

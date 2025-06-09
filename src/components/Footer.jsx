@@ -22,11 +22,12 @@ const socialIcons = [
 
 const quickLinks = [
   { label: 'Register Warranty Card', path: '/about' },
-  { label: 'Submit a Complaint', path: '/blog' },
+  { label: 'Blog', path: '/blog' },
   { label: 'Terms & Conditions', path: '/contact' },
   { label: 'Privacy Policy', path: '/certification' },
+  { label: 'Submit a Complaint', path: '/blog' },
   { label: 'Installation Guide', path: '/catalouge' },
-  { label: 'Become A Dealer', path: '/catalouge' },
+  // { label: 'Become A Dealer', path: '/catalouge' },
 ];
 
 const productLinks = [

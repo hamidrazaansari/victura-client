@@ -59,6 +59,8 @@ function Otp() {
         }
       });
 
+      console.log(response);
+      
 
       if (response.data) {
         toast.success(response.data?.message)

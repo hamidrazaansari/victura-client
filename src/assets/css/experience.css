@@ -1,27 +1,39 @@
-.exp{
+.exp {
     padding: 40px 0;
-    background: url(../image/loginBg.png);
-    margin-top: 40px;
-    object-fit: cover;
-    
+    margin: 40px 0;
+    position: relative;
+    height: 730px;
+}
+.exp .backgroundImg{
+    position: absolute;
+    top: 0;
+    z-index: 0;
+}
+.exp .expFeature {
+    position: absolute;
+    top: 40px;
+    z-index: 1;
+    width: 100%;
 }
 
 .fan_experiance {
     display: flex;
     align-items: center;
     /* max-width: 100%; */
+    margin-top: 80px;
 }
 .fan-remote {
     min-width: 200px;
-    max-width: 210px;
-    border: 10px solid #5d5e5d;
-    border-radius: 22px;
-    padding: 2rem 1rem;
+    max-width: 250px;
+    border: 8px solid #3E496A;
+    border-radius: 13px;
+    padding:1rem;
     display: flex;
     justify-content: center;
     flex-flow: row wrap;
     margin: 0 auto;
     box-shadow: 10px 20px 60px 0 rgb(0 0 0 / 10%);
+    background-color: #fff;
 }
 .button_circle{
     width: 130px;
@@ -33,6 +45,8 @@
     background: #fff;
     display: flex;
     margin-bottom: 1.5rem;
+    background-color: #3E496A;
+    
 }
 .direction{
     display: flex;
@@ -49,13 +63,12 @@
     font-weight: 400;
 }
 
-.direction .light
- {
+.direction .light {
     width: 80px;
-    height: 40px;
-    border-radius: 8px;
-    font-size: 10px;
-    line-height: 13px;
+    height: 30px;
+    border-radius: 4px;
+    font-size: 9px;
+    line-height: 12px;
     padding: 0 5px;
     border: none;
     color: #233332;
@@ -124,41 +137,27 @@
     bottom: 18px;
 }
 
-.direction .next
- {
-    margin: 0 9px 0 0;
-}
 
 .direction .back, .direction .next {
-    width: 76px;
-    height: 40px;
-    border-radius: 8px;
+    width: 30px;
+    height: 30px;
+    border-radius: 3px;
     border: none;
     font-size: 10px;
     color: #233332;
     -webkit-text-fill-color: #233332;
+    border: 3px solid #3E496A;
 }
 
-.direction .back, .direction .next {
-    width: 76px;
-    height: 40px;
-    border-radius: 8px;
-    border: none;
-    font-size: 10px;
-    color: #233332;
-    -webkit-text-fill-color: #233332;
-}
 
 .fan_off {
     animation-iteration-count: infinite;
     animation-timing-function: linear;
-    position: relative;
-    z-index: 9;
     display: flex;
     justify-content: center;
     margin-bottom: 2rem;
     padding: 30px;
-    overflow: hidden;
+    position: relative;
 }
 .fan_on {
     animation-name: spin;
@@ -167,8 +166,8 @@
 }
 .fan_light {
     position: absolute;
-    left: 50%;
-    top: 50%;
+    left: 318px !important;
+    top: 318px !important;
     transform: translate(-50%, -50%);
     /* margin: -35px 0 0 -35px; */
     width: 480px;
@@ -196,19 +195,19 @@
 }
 
 .speed-1 {
-    animation-duration: 3s;
-}
-
-.speed-2 {
-    animation-duration: 2s;
-}
-
-.speed-3 {
     animation-duration: 1s;
 }
 
+.speed-2 {
+    animation-duration: 0.8s;
+}
+
+.speed-3 {
+    animation-duration: 0.6s;
+}
+
 .speed-4 {
-    animation-duration: 0.5s;
+    animation-duration: 0.4s;
 }
 
 .speed-5 {
@@ -238,4 +237,135 @@
     height: 480px;
     z-index: 9;
     display: block;
+}
+
+.remoteBtn {
+    display: flex;
+    justify-content: space-between;
+    width: 90%;
+}
+.remoteBtn h3{
+    font-family: boldInter;
+    font-size: 20px;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: #3E496A;
+    text-align: center;
+}
+
+.circle-container {
+    position: relative;
+    width: 300px;
+    height: 206px;
+    border-radius: 50%;
+    background: #fff;
+    margin: 0px auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.center-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 70px;
+  height: 70px;
+  background: #2e3a5f;
+  border: 10px solid white;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+
+.segment {
+    position: absolute;
+    width: 90%;
+    height: 100%;
+    clip-path: polygon(54% 54%, 144% 0, 99% 84%);
+    background: #2e3a5f;
+    color: white;
+    font-weight: bold;
+    justify-content: center;
+    border-radius: 50%;
+}
+.circle-container::before {
+    position: absolute;
+    content: '';
+    height: 80%;
+    width: 80%;
+    top: 21px;
+    background: transparent;
+    z-index: 2;
+    outline: 20px solid #fff;
+    border-radius: 50%;
+    border: 8px solid #C3C3C3;
+}
+
+.segment span {
+  position: absolute;
+  transform: translate(-50%, -50%);
+}
+
+/* Rotate each segment and offset slightly to create a gap */
+.seg-1 {
+  transform: rotate(0deg) translateY(-10px);
+}
+.seg-2 {
+  transform: rotate(72deg) translateY(-10px);
+}
+.seg-3 {
+  transform: rotate(144deg) translateY(-10px);
+}
+.seg-4 {
+  transform: rotate(216deg) translateY(-10px);
+}
+.seg-5 {
+  transform: rotate(288deg) translateY(-10px);
+}
+.text{
+    position: absolute;
+    top: 53px;
+    left: 35px;
+    z-index: 2;
+    color: #fff;
+    font-weight: 700;
+    font-size: 20px;
+    width: 40px;
+    text-align: center;
+}
+.text1{
+        top: 118px;
+}
+.text3{
+    top: 33px;
+    left: 97px;
+}
+.text4{
+    left: 135px;
+    top: 84px;
+}
+.text5{
+    top: 138px;
+    left: 97px;
+}
+
+.expFeature .heading{
+    font-size: 24px;
+    font-family: boldInter;
+}
+.direction_btn p{
+        font-size: 12px;
+    text-align: center;
+    font-family: 'inter';
+    margin-bottom: 0px;
+}
+.remoreLogo{
+    border: 2px solid #2e3a5f;
+    border-radius: 50%;
+    padding: 5px;
 }

@@ -1,0 +1,109 @@
+
+
+.about-victura{
+    padding: 40px 0;
+}
+.about-victura h1 , .why-victura h2{
+    font-family: 'inter';
+    font-size: 27px;
+    font-weight: 600;
+    color: #3E496A;
+    margin-bottom: 38px;
+}
+.about-victura .img-box img  , .why-victura .img-box img{
+    height: 500px;
+    width: 85%;
+}
+.about-victura .content-box , .why-victura .content-box{
+    padding: 50px;
+}
+.about-victura .content-box p , .why-victura .content-box p{
+    font-size: 15px;
+    line-height: 22px;
+    font-family: 'inter';
+    margin-bottom: 30px;
+    color: #4F4F4F;
+}
+.about .feature{
+    background: #F2F2F2;
+    padding: 50px;
+    margin: 40px 0;
+}
+.about .feature h2{
+    font-size: 25px;
+    text-align: center;
+    margin-bottom: 25px;
+    color: #3E496A;
+    font-family: 'boldInter';
+}
+.about .feature p{
+    margin-bottom: 25px;
+    font-family: inter;
+    font-size: 14px;
+    color: #4F4F4F;
+    text-align: center;
+}
+.about .featureBox{
+        background: #fff;
+    padding: 30px;
+    margin: 20px 0;
+    height: 150px;
+}
+.about .featureBox h3{
+    color: #000;
+    font-family: inter;
+    font-size: 15px;
+}
+.about .featureBox p{
+    text-align: left;
+}
+.why-victura{
+    padding: 40px 0;
+}
+.why-victura ul li{
+        font-family: 'inter';
+    font-size: 15px;
+    margin-bottom: 25px;
+}
+
+.why-victura .content-box{
+    padding-top: 70px;
+}
+.why-victura .content-box img{
+        height: 15px;
+    margin-right: 10px;
+}
+.why-victura ol{
+    padding-left: 16px;
+    color: #4F4F4F;
+}
+
+.about .highlight{
+    padding: 40px 0 80px;
+    font-family: inter;
+}
+.about .highlight h2{
+    font-weight: 600;
+    font-size: 25px;
+    color: #3E496A;
+    margin-bottom: 40px;
+}
+.about .card-box{
+    position:relative ;
+}
+.about .dataContent {
+    position: absolute;
+    bottom: 10px;
+    color: #fff;
+    z-index: 2;
+    padding: 50px;
+    padding-bottom: 0;
+}
+.about .dataContent h3{
+    font-family: 'boldInter';
+    font-size: 20px;
+}
+.about .dataContent P{
+    font-size: 16px;
+    font-weight: 100;
+}

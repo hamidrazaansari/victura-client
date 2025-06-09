@@ -8,14 +8,14 @@ import { IoIosArrowRoundForward } from "react-icons/io";
 import ScrollAnimation from 'react-animate-on-scroll'
 
 
-function BlogSection() {
+function BlogSection({heading}) {
   return (
     <div className='blog'>
         <div className="container">
             <div className="d-flex align-items-center justify-content-between">
                 <div className='content'>
                     <ScrollAnimation animateIn="fadeInUp">
-                    <h2>Blog</h2>
+                    <h2>{!heading ? 'Blog' : heading}</h2>
                     </ScrollAnimation>
                     <ScrollAnimation animateIn="fadeInUp">
                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>

@@ -1,25 +1,27 @@
-import React, { useState } from 'react';
-import '../assets/css/product-details.css'
+import React, { useContext } from 'react';
+import '../assets/css/product-details.css';
+import { CounterContext } from '../context/ContextProvider';
 
-const QuantityInput = ({ initialQuantity = 1, min = 1, max = 99 }) => {
-  const [quantity, setQuantity] = useState(initialQuantity);
+const QuantityInput = ({ min = 1, max = 99, productId }) => {
+  const { quantities, setQuantity } = useContext(CounterContext);
+  const quantity = quantities[productId] || 1;
 
   const handleDecrease = () => {
     if (quantity > min) {
-      setQuantity(prev => prev - 1);
+      setQuantity(productId, quantity - 1);
     }
   };
 
   const handleIncrease = () => {
     if (quantity < max) {
-      setQuantity(prev => prev + 1);
+      setQuantity(productId, quantity + 1);
     }
   };
 
   const handleChange = (e) => {
     const value = Number(e.target.value);
     if (value >= min && value <= max) {
-      setQuantity(value);
+      setQuantity(productId, value);
     }
   };
 

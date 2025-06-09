@@ -7,11 +7,11 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
     position: relative;
     padding: 10px;
     margin: 10px;
     border-radius: 15px;
+    height: 630px;
 }
 .product-box::after{
     content: '';
@@ -21,7 +21,7 @@
     background-repeat: no-repeat;
     top: 12px;
     right: 20px;
-    z-index: 5;
+    z-index: 1;
     height: 60px;
     width: 60px;
 }
@@ -61,7 +61,7 @@
 
 .Size span {
     background: #fff;
-    padding: 11px;
+    padding: 8px 12px;
     font-family: 'inter';
     border-radius: 20px;
     font-size: 13px;
@@ -104,6 +104,8 @@
     margin: 0 5px;
     border-radius: 50%;
 }
+
+
 .purple{
     background-color: #4E2523 !important;
 }
@@ -111,7 +113,7 @@
     background-color: #8F614A !important;
 }
 .gredient{
-    background: linear-gradient(0deg,rgba(45, 45, 45, 1) 53%, rgba(213, 202, 188, 1) 52%) !important;
+    background: linear-gradient(0deg,rgba(45, 45, 45, 1) 50%, rgba(213, 202, 188, 1) 50%) !important;
 }
 .teal{
     background: #4A8F8F !important;
@@ -153,6 +155,10 @@
     margin-bottom: 20px;
     font-family: 'inter';
     border-radius: 6px;
+}
+.product-box .add-to-cart-btn{
+    position: absolute;
+    bottom: 0;
 }
 
 .custom-arrow {
@@ -228,4 +234,7 @@ background-color: #000 !important;
 .BestSellingProducts .slick-dots li button::before{
     font-size: 0 !important;
     line-height: 0 !important;
+}
+.swal2-confirm{
+    background-color: #3E496A !important;
 }

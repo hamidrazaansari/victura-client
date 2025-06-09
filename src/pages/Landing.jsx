@@ -14,6 +14,7 @@ import ContactUs from '../components/ContactUs'
 import Footer from '../components/Footer'
 import '../assets/css/info.css'
 import ScrollAnimation from 'react-animate-on-scroll';
+import MainBannerVideo from '../assets/image/banner.mp4'
 
 
 function Landing() {
@@ -22,6 +23,7 @@ function Landing() {
       <NavBar />
       <section className='banner' style={{ position: "relative", top: "-6px" }}>
         <img src={Banner} alt="banner victura" className='img-fluid w-100' />
+        {/* <video src={MainBannerVideo} autoPlay  className='w-100' style={{height:"650px" , objectFit:"cover"}} ></video> */}
       </section>
       <Category />
       <ChoosingRightFan />
