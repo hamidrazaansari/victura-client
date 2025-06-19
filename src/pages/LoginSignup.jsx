@@ -5,13 +5,23 @@ import '../assets/css/login.css'
 import Arrow from '../assets/image/arrow-white.png'
 import { BaseUrl } from '../utills/BaseUrl'
 import axios from 'axios'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import LoginImage from '../assets/image/loginPageImage.png'
+import mail from '../assets/image/socalMedia/mail.png'
+import CountryCode from '../components/CountryCode'
+import { IoMailOutline } from "react-icons/io5";
+
 
 function LoginSignup() {
   const [mobile, setMobile] = useState('')
   const [loading, setLoading] = useState(false)
-  const [isChecked, setIsChecked] = useState(false) 
-  const [error, setError] = useState('') 
+  const [isChecked, setIsChecked] = useState(true)
+  const [error, setError] = useState('')
+  const [countrycode, setCountryCode] = useState('')
+
+  const CountryCodeChange = (countryCode) => {
+    setCountryCode(countryCode)
+  }
 
 
   const navigate = useNavigate()
@@ -35,8 +45,7 @@ function LoginSignup() {
 
       if (response.data?.body?.token) {
         const token = response.data.body.token;
-        localStorage.setItem('token', token);
-        navigate('/otp');
+        navigate('/otp', { state: {token , mobile:`+${countrycode} ${mobile}` } });
       } else {
         console.log('Token not found in response');
       }
@@ -47,7 +56,7 @@ function LoginSignup() {
       setLoading(false);
     }
   };
-  
+
   return (
     <div className='login'>
       <NavBar />
@@ -58,40 +67,53 @@ function LoginSignup() {
       </div>
       <div className="container">
         <div className="login-box">
-          <h2>Login / Sign up</h2>
-          <p>Tell us your mobile number to login</p>
+          <h1><span>Introducing</span> BLDC Fan</h1>
+          <p>Let the breeze do the talking</p>
+          <img src={LoginImage} className='fanImg' alt="BLDC Fan" />
+          <h2>Login with OTP</h2>
+          <p>Enter your log In details</p>
           <div className="input-box">
-            <input 
-              type="text" 
-              className='form-control' 
-              placeholder='Enter 10 Digit Mobile Number*' 
-              value={mobile} 
-              onChange={handleNumChange} 
+            <CountryCode
+              CountryCodeChange={CountryCodeChange}
+              defaultCountryCode={`91`}
             />
-            {error.mobile ? <small >{error.mobile}</small>: ''}
+            <input
+              type="text"
+              className='form-control inputMobile'
+              placeholder='Phone number'
+              value={mobile}
+              onChange={handleNumChange}
+            />
+            {error.mobile ? <small >{error.mobile}</small> : ''}
           </div>
-
+          <button
+            className='add-to-cart-btn'
+            onClick={handleRegisterUser}
+          // disabled={!isChecked || loading} // Disable when unchecked or loading
+          >
+            {loading ? 'Please wait...' : 'Receive OTP'}
+            <img src={Arrow} alt="Arrow" />
+          </button>
           <div className="form-check ps-0">
-            <input 
-              className="form-check-input" 
-              type="checkbox" 
-              id="flexCheckDefault3" 
+            <input
+              className="form-check-input"
+              type="checkbox"
+              id="flexCheckDefault3"
               checked={isChecked}
               onChange={handleCheckboxChange}
             />
             <label className="form-check-label" htmlFor="flexCheckDefault3">
-              By continuing, you agree to <a href="">Terms</a> of Use and <a href="">Privacy Policy</a>
+              <p className='condition-text'>I accept that I have read & understand
+                Privacy Policy and Terms & Conditions.</p>
             </label>
           </div>
 
-          <button 
-            className='add-to-cart-btn' 
-            onClick={handleRegisterUser} 
-            disabled={!isChecked || loading} // Disable when unchecked or loading
-          >
-            {loading ? 'Please wait...' : 'Receive OTP'} 
-            <img src={Arrow} alt="Arrow" />
-          </button>
+
+
+
+
+
+
         </div>
       </div>
       <Footer />

@@ -29,7 +29,7 @@ const PrevArrow = (props) => {
   );
 };
 
-function BestSellingProducts({ slideTOshow, heading }) {
+function BestSellingProducts({ slideTOshow, heading  , productId }) {
 
   const [products, setProducts] = useState([]);
 
@@ -58,7 +58,7 @@ function BestSellingProducts({ slideTOshow, heading }) {
     prevArrow: <PrevArrow />,
   };
   return (
-    <div className='BestSellingProducts'>
+    <div className='BestSellingProducts listingProducts related'>
       <div className="container">
         <ScrollAnimation animateIn="fadeInUp">
           <h2 className='heading'> <span></span> {heading} <span></span></h2>
@@ -67,6 +67,7 @@ function BestSellingProducts({ slideTOshow, heading }) {
           <Slider {...settings}>
 
             {products && products.map((product, index) => {
+              if (productId === product._id) return null;
 
               return (
                 <div className='mx-2' key={index}>

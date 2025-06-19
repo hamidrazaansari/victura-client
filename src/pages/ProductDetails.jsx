@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect, useRef } from 'react';
 import NavBar from '../components/NavBar';
 import Footer from '../components/Footer';
 import '../assets/css/product-details.css';
@@ -26,45 +26,12 @@ import BestSellingProducts from '../components/BestSellingProducts';
 import Experience from '../components/Experience';
 import Amazone from '../assets/image/amazone.png';
 import Flipkart from '../assets/image/flipkart.png';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useParams, useSearchParams } from 'react-router-dom';
 import { CounterContext } from '../context/ContextProvider';
 import axios from 'axios'
 import { BaseUrl, FileUrl } from '../utills/BaseUrl'
 import parse from 'html-react-parser'
-
-
-const slideData = [
-    { img: Remote, label: 'Remote' },
-    { img: Stopwatch, label: '4 KV Surge Protection' },
-    { img: Wind, label: 'Highest Air Delivery (>220CMM)' },
-    { img: Flash, label: '4 KV Surge Protection' },
-    { img: Motor, label: 'Reliable Inverter Motor (BLDC)' },
-    { img: Wind, label: 'Highest Air Delivery (>220CMM)' },
-    { img: Meter, label: 'Full Speed Operation (110V-280V)' },
-];
-
-// Feature List
-const featureList = [
-    'Reverse rotation',
-    'Breeze Mode',
-    'Sleep Mode',
-    'Timer',
-    'Boost Speed',
-    'RF remote',
-];
-
-// Specification List 
-const specList = [
-    'Motor speed: 350 RPM',
-    'Power Consumption: 32W',
-    'Fan Sweep Size: 1200 mm',
-    'Air Delivery: 220 CMM',
-    'Service Value: 6.87',
-    'THD: <10%',
-    'Speed Settings: 5 + Boost (370rpm)',
-    'Winding Material: Copper',
-    'Blade & Covers Material: Aluminium',
-];
+import ShereModal from '../components/ShereModal';
 
 // related Product Slider 
 const sliderSettings = {
@@ -79,14 +46,6 @@ const sliderSettings = {
     pauseOnHover: false,
 };
 
-// Feature Component  
-const FeatureItem = ({ text }) => (
-
-    <div className="d-flex featurebox">
-        <img src={arrow} className="img-fluid" alt="arrow" />
-        <p>{text}</p>
-    </div>
-);
 
 const ProductDetails = () => {
 
@@ -95,7 +54,13 @@ const ProductDetails = () => {
     const [selectdImage, setSelectedImaeg] = useState([0])
     const [name, setName] = useState('');
     const [product, setProduct] = useState([]);
+    const [show, setShow] = useState(false);
 
+    const sliderRef = useRef(null);
+
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
     useEffect(() => {
         if (product?.variants?.length > 0) {
             const defaultVariant = product.variants[0];
@@ -107,16 +72,16 @@ const ProductDetails = () => {
     }, [product]);
 
     // getting productId from product
-    const location = useLocation();
-    const productId = location.state
-    
+    const [searchParams] = useSearchParams();
+    const id = searchParams.get('id');
+
 
     // fetching product by Id 
     useEffect(() => {
         window.scrollTo(0, 0);
         const fetchData = async () => {
             try {
-                const response = await axios.get(`${BaseUrl}/products/${productId}`);
+                const response = await axios.get(`${BaseUrl}/products/${id}`);
                 setProduct(response.data?.body);
             } catch (error) {
                 console.error('Failed to fetch categories:', error);
@@ -124,7 +89,7 @@ const ProductDetails = () => {
         };
 
         fetchData();
-    }, [productId]);
+    }, [id]);
 
     // handleProduct where for Only Number Can Enter 
     const handleChange = (e) => {
@@ -135,8 +100,8 @@ const ProductDetails = () => {
     };
 
     // adding Data to cart
-    const { addData } = useContext(CounterContext);
-    
+    const { addData, isDuplicateItem } = useContext(CounterContext);
+
     const handeAddToCart = () => {
         if (!selectedVariant || !selectedSize) return;
 
@@ -160,92 +125,84 @@ const ProductDetails = () => {
             setSelectedSize(null);
         }
     };
+
     const handleSizeClick = (size) => {
         setSelectedSize(size);
     };
 
     const { quantities } = useContext(CounterContext);
 
-const quantity = quantities[product._id] || 1;
+    const quantity = quantities[product._id] || 1;
+
+    const verticalSliderSettings = {
+        dots: false,
+        infinite: true,
+        vertical: true,               // Enable vertical mode
+        verticalSwiping: true,        // Allow swipe gestures vertically
+        slidesToShow: 3,              // How many slides visible
+        slidesToScroll: 1,
+        autoplay: true,
+        speed: 500,
+        autoplaySpeed: 3000,
+        // arrow:true
+    };
+
+    useEffect(() => {
+        const slider = sliderRef.current?.innerSlider?.list;
+
+        const handleWheel = (e) => {
+            e.preventDefault();
+            if (e.deltaY < 0) {
+                sliderRef.current.slickPrev();
+            } else {
+                sliderRef.current.slickNext();
+            }
+        };
+
+        if (slider) {
+            slider.addEventListener('wheel', handleWheel, { passive: false });
+        }
+
+        return () => {
+            if (slider) {
+                slider.removeEventListener('wheel', handleWheel);
+            }
+        };
+    }, []);
+
+
 
 
     return (
         <>
+            <ShereModal handleClose={handleClose} handleShow={handleShow} show={show} ProductTitle={product.name} />
             <NavBar />
-            <div className="productDetails">
-                <div className="stickyPos">
-                    <div className="brdcrb">
-                        <div className="container">
-                            <div className="breadcrumb">
-                                <p>Home</p><span>/</span><p>{product.category?.name}</p><span>/</span><p>{product.name}</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Title & Price */}
-                    <div className="titlePriceBox">
-                        <div className="container">
-                            <div className="d-flex align-items-center justify-content-between">
-                                <h2 style={{ width: "500px" }}>{product.name}</h2>
-                                <div className="d-flex align-items-center">
-                                    {/* <div className="price">
-                                        <a target="_blank" href="https://www.amazon.in/Victura-Airmotion-Renacer-Delivery-Warranty/dp/B0D9MBXL38?source=ps-sl-shoppingads-lpcontext&ref_=fplfs&psc=1&smid=A3L113L248B4Q0"><img src={Amazone} alt="amazone" className='img-fluid me-2' style={{ height: "40px", width: "40px" }} /></a>
-                                        <a target="_blank" href="https://www.flipkart.com/victura-airmotion-aethra-bldc-high-speed-air-delivery-2-year-warranty-5-star-1200-mm-3-blade-ceiling-fan/p/itm437bd3a7fb8b7?pid=FANH3HTQNDJGT6XW&lid=LSTFANH3HTQNDJGT6XW7XCWEW&marketplace=FLIPKART&cmpid=content_fan_8965229628_gmc"><img src={Flipkart} alt="flipkart" className='img-fluid me-4' style={{ height: "40px", width: "40px" }} /></a>
-                                        <span className="cutprice">₹5,699.00</span>
-                                        <p className="actualprice">₹3,699.00</p>
-                                        <span className="tax">(incl. of all taxes)</span>
-                                        <span className="discount">-40%</span>
-                                    </div> */}
-                                    <div className="price">
-                                        <a target="_blank" href="https://www.amazon.in/Victura-Airmotion-Renacer-Delivery-Warranty/dp/B0D9MBXL38?source=ps-sl-shoppingads-lpcontext&ref_=fplfs&psc=1&smid=A3L113L248B4Q0"><img src={Amazone} alt="amazone" className='img-fluid me-2' style={{ height: "40px", width: "40px" }} /></a>
-                                        <a target="_blank" href="https://www.flipkart.com/victura-airmotion-aethra-bldc-high-speed-air-delivery-2-year-warranty-5-star-1200-mm-3-blade-ceiling-fan/p/itm437bd3a7fb8b7?pid=FANH3HTQNDJGT6XW&lid=LSTFANH3HTQNDJGT6XW7XCWEW&marketplace=FLIPKART&cmpid=content_fan_8965229628_gmc"><img src={Flipkart} alt="flipkart" className='img-fluid me-4' style={{ height: "40px", width: "40px" }} /></a>
-
-                                        <span className="cutprice">₹{selectedSize?.mrp * quantity || '0.00'}</span>
-                                        <p className="actualprice">₹{selectedSize?.salePrice * quantity || '0.00'}</p>
-                                        {selectedSize && (
-                                            <span className="discount">
-                                                -{Math.round(
-                                                    ((selectedSize.mrp - selectedSize.salePrice) / selectedSize.mrp) * 100
-                                                )}
-                                                %
-                                            </span>
-                                        )}
-                                    </div>
-                                    <button className="add-to-cart-btn" onClick={handeAddToCart}>Add To Cart</button>
-                                    <button className="buy-now-btn add-to-cart-btn">Buy Now</button>
-                                </div>
-                            </div>
-                        </div>
+            <div className="productDetails mt-3">
+                <div className="container">
+                    <div className="breadcrumb">
+                        <p>Home</p><span>/</span><p>{product.category?.name}</p><span>/</span><p>{product.name}</p>
                     </div>
                 </div>
-
                 {/* Product Info */}
-                <div className="container">
+                <div className="container mt-4">
                     <div className="row">
                         {/* Images */}
                         <div className="col-lg-6">
                             <div className="product-images-box">
                                 <div className="row">
-                                    <div className="col-2">
-                                        {selectedSize?.images?.map((image, idx) => (
-                                            <div key={idx} className="product-image-indecator" onClick={() => setSelectedImaeg([idx])}>
-                                                <img src={`${FileUrl}/${image}`} alt={image} />
-                                            </div>
-                                        ))}
+                                    <div className="col-2 p-0">
+                                        <Slider ref={sliderRef} {...verticalSliderSettings}>
+                                            {selectedSize?.images?.map((image, idx) => (
+                                                <div key={idx} className="product-image-indecator" onClick={() => setSelectedImaeg([idx])}>
+                                                    <img src={`${FileUrl}/${image}`} className='p-0' alt={image} />
+                                                </div>
+                                            ))}
+                                        </Slider>
                                     </div>
                                     <div className="col-10">
                                         <div className="product-image">
-                                            {/* <div className="d-flex justify-content-between">
-                                                <h3>
-                                                    {product.name}
-                                                </h3>
-                                                <img src={Rating} className="rating" alt="rating" />
-                                            </div> */}
                                             <div className="image-main">
                                                 <img src={`${FileUrl}/${selectedSize?.images[selectdImage]}`} alt="fan" className="img-fluid productImg" />
-                                                <button className="add-to-cart-btn">
-                                                    Save upto ₹1500* Per Year
-                                                </button>
                                             </div>
                                         </div>
                                     </div>
@@ -260,55 +217,54 @@ const quantity = quantities[product._id] || 1;
                                     <h2>{product.name}</h2>
                                     <p>{parse(product.shortDescription ? product.shortDescription : 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus, officiis?')}</p>
                                 </div>
-                                <button className="shere-btn">
+                                <button className="shere-btn" onClick={handleShow}>
                                     Share <img src={upload} alt="upload" />
                                 </button>
                             </div>
 
-                            <div className="colors">
-                                <h4>Color - {selectedVariant ? selectedVariant.color?.name : ''}</h4>
-                                <div className="color-box d-flex">
-                                    {product?.variants?.map((variant, index) => (
-                                        <div
-                                            key={index}
-                                            className={`color ${selectedVariant?._id === variant._id ? 'active' : ''}`}
-                                            style={{
-                                                background: !variant.color?.anotherCode
-                                                    ? variant.color?.code
-                                                    : `linear-gradient(0deg, ${variant.color?.anotherCode} 50%, ${variant?.color.code} 50%)`,
-                                                cursor: "pointer"
-                                            }} onClick={() => handleColorClick(variant)}
-                                        ></div>
-                                    ))}
-                                </div>
-                            </div>
-
                             <div className="d-flex">
-                                <>
-                                    {selectedVariant?.sizes?.length > 0 && (
-                                        <div className="Size mt-3">
-                                            <h4 >Sweep Size:</h4>
-                                            <div className="d-flex gap-2 ">
-                                                {selectedVariant.sizes.map((sizeItem, idx) => (
-                                                    <span
-                                                        key={idx}
-                                                        className={` sizeOption ${selectedSize?._id === sizeItem._id ? 'active' : ''}`}
-                                                        style={{ cursor: 'pointer' }}
-                                                        onClick={() => handleSizeClick(sizeItem)}
-                                                    >
-                                                        {sizeItem.size.title}
-                                                    </span>
-                                                ))}
-                                            </div>
-                                        </div>
-                                    )}
-                                </>
-
+                                <div className="colors">
+                                    <h4>Color - {selectedVariant ? selectedVariant.color?.name : ''}</h4>
+                                    <div className="color-box d-flex">
+                                        {product?.variants?.map((variant, index) => (
+                                            <div
+                                                key={index}
+                                                className={`color ${selectedVariant?._id === variant._id ? 'active' : ''}`}
+                                                style={{
+                                                    background: !variant.color?.anotherCode
+                                                        ? variant.color?.code
+                                                        : `linear-gradient(0deg, ${variant.color?.anotherCode} 50%, ${variant?.color.code} 50%)`,
+                                                    cursor: "pointer"
+                                                }} onClick={() => handleColorClick(variant)}
+                                            ></div>
+                                        ))}
+                                    </div>
+                                </div>
                                 <div className="Size watt">
                                     <h4 className="mb-4">Watt</h4>
-                                    <span>35w</span>
+                                    <span >{product.watt}w</span>
                                 </div>
                             </div>
+
+                            <>
+                                {selectedVariant?.sizes?.length > 0 && (
+                                    <div className="Size mt-3">
+                                        <h4 >Sweep Size:</h4>
+                                        <div className="d-flex gap-2 ">
+                                            {selectedVariant.sizes.map((sizeItem, idx) => (
+                                                <span
+                                                    key={idx}
+                                                    className={` sizeOption my-0 ${selectedSize?._id === sizeItem._id ? 'active' : ''}`}
+                                                    style={{ cursor: 'pointer' }}
+                                                    onClick={() => handleSizeClick(sizeItem)}
+                                                >
+                                                    {sizeItem.size.title}
+                                                </span>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+                            </>
 
                             <h4>Quantity</h4>
                             <QuantityInput productId={product._id} />
@@ -317,8 +273,39 @@ const quantity = quantities[product._id] || 1;
                                 <h4>Delivery Details</h4>
                                 <div className="d-flex">
                                     <input type="text" placeholder="Pincode" value={name} onChange={handleChange} />
-                                    <button className="add-to-cart-btn">Check Delivery Time</button>
+                                    <button className="add-to-cart-btn">Check Delivery</button>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Title & Price */}
+                <div className="titlePriceBox">
+                    <div className="container">
+                        <div className="d-flex align-items-center justify-content-between">
+                            <h2 style={{ width: "500px" }}>{product.name}</h2>
+                            <div className="d-flex align-items-center">
+
+                                <div className="price my-0">
+                                    {!product?.amazon ? '' : <a target="_blank" href="https://www.amazon.in/Victura-Airmotion-Renacer-Delivery-Warranty/dp/B0D9MBXL38?source=ps-sl-shoppingads-lpcontext&ref_=fplfs&psc=1&smid=A3L113L248B4Q0"><img src={Amazone} alt="amazone" className='img-fluid me-2' style={{ height: "40px", width: "40px" }} /></a>}
+
+                                    {!product?.flipkart ? '' : <a target="_blank" href="https://www.flipkart.com/victura-airmotion-aethra-bldc-high-speed-air-delivery-2-year-warranty-5-star-1200-mm-3-blade-ceiling-fan/p/itm437bd3a7fb8b7?pid=FANH3HTQNDJGT6XW&lid=LSTFANH3HTQNDJGT6XW7XCWEW&marketplace=FLIPKART&cmpid=content_fan_8965229628_gmc"><img src={Flipkart} alt="flipkart" className='img-fluid me-4' style={{ height: "40px", width: "40px" }} /></a>}
+
+                                    <span className="cutprice">₹{`${selectedSize?.mrp * quantity}.00` || '0.00'}</span>
+                                    <p className="actualprice">₹{`${selectedSize?.salePrice * quantity}.00` || '0.00'}</p>
+                                    {selectedSize && (
+                                        <span className="discount">
+                                            -{Math.round(
+                                                ((selectedSize.mrp - selectedSize.salePrice) / selectedSize.mrp) * 100
+                                            )}
+                                            %
+                                        </span>
+                                    )}
+                                </div>
+                                <button className='add-to-cart-btn' onClick={handeAddToCart}>
+                                    {!isDuplicateItem[product._id] ? 'ADD TO CART' : 'GO TO CART'}
+                                </button>                                {/* <button className="buy-now-btn add-to-cart-btn">Buy Now</button> */}
                             </div>
                         </div>
                     </div>
@@ -327,10 +314,10 @@ const quantity = quantities[product._id] || 1;
                 {/* Feature Slider */}
                 <div className="container">
                     <Slider className="slider" {...sliderSettings}>
-                        {slideData.map(({ img, label }, idx) => (
+                        {product.features && product.features.map(( feature, idx) => (
                             <div key={idx} className="slide-box">
-                                <img src={img} className="img-fluid" alt={label} />
-                                <p>{label}</p>
+                                <img src={`${FileUrl}/${feature.image}`} className="img-fluid" alt={feature.name} />
+                                <p>{feature.name}</p>
                             </div>
                         ))}
                     </Slider>
@@ -338,7 +325,7 @@ const quantity = quantities[product._id] || 1;
 
                 {/* Banners */}
                 <div className="container">
-                    <img src={banner1} alt="Banner 1" className="img-fluid" />
+                    <img src={`${FileUrl}/${product.bannerFirst}`} alt={`${product.slug} banner`} className="img-fluid" />
                 </div>
 
 
@@ -346,40 +333,39 @@ const quantity = quantities[product._id] || 1;
 
 
                 <div className="container">
-                    <img src={banner2} alt="Banner 2" className="img-fluid my-5" />
+                    <img src={`${FileUrl}/${product.bannerSecond}`} alt="Banner 2" className="img-fluid my-5" />
                 </div>
 
                 {/* Features & Specs */}
                 <div className="container">
                     <div className="row">
                         <div className="col-lg-6">
-                            <h2 className='featureHeading'>Features :</h2>
+                            {/* <h2 className='featureHeading'>Features :</h2>
                             <div className="Features">
                                 {featureList.map((feature, idx) => (
                                     <FeatureItem key={idx} text={feature} />
                                 ))}
-                            </div>
+                            </div> */}
                             <h2 className='featureHeading'>Specifications :</h2>
                             <div className="Features">
-                                {specList.map((spec, idx) => (
-                                    <FeatureItem key={idx} text={spec} />
-                                ))}
+                                {parse(product.specifications ? product.specifications : 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus, officiis?')}
+
                             </div>
                         </div>
                         <div className="col-lg-6">
                             <div className='Additional'>
                                 <h2>Additional Details</h2>
-                                <div className="addit-box flex-column align-items-start mb-3">
-                                    <h3>Description :</h3>
-                                    <p> Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quia temporibus perferendis necessitatibus saepe tenetur delectus provident quo ducimus debitis cum libero porro molestiae doloribus ullam, eaque expedita non at nisi obcaecati error distinctio! Aliquid corrupti vero culpa impedit eum dignissimos id eos dolores illum distinctio non fugiat, obcaecati nulla magnam unde perferendis voluptates earum eius aut. Praesentium natus similique commodi numquam cupiditate sed architecto sapiente consequuntur hic beatae perferendis, dolores excepturi eum, illum ex minus molestias? Rem dolorem perspiciatis voluptates dignissimos facere dicta, et laboriosam reprehenderit sapiente laborum eos exercitationem neque, possimus omnis esse non totam? Magnam doloremque quibusdam mollitia.</p>
+                                <div className="addit-box">
+                                    <h3>Description:</h3>
+                                    <p>{parse(product.description ? product.description : 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus, officiis?')}</p>
                                 </div>
                                 <div className="addit-box">
-                                    <h3>Manufacturer :</h3>
-                                    <p> <a href="">POOJA METAL PROCESSORS (P) LTD,</a> an ISO 9001-2015 and ISO 14001:2015 and is one of the highly recognized manufacturer and exporter of Electrical Stampings.</p>
+                                    <h3>Manufacturer:</h3>
+                                    <p>{product.manufacturer}</p>
                                 </div>
                                 <div className="addit-box">
                                     <h3>Manufacturer and packaged by:</h3>
-                                    <p>POOJA METAL PROCESSORS  <a href="#">Plot NO.212, Sector 58, Faridabad, Haryana - 121004 </a></p>
+                                    <p>{product.packagedBy}</p>
                                 </div>
 
                             </div>
@@ -388,12 +374,12 @@ const quantity = quantities[product._id] || 1;
                 </div>
 
                 <div className="container py-5">
-                    <img src={banner3} alt="Banner 1" className="img-fluid" />
+                    <img src={`${FileUrl}/${product.bannerFirst}`} alt="Banner 1" className="img-fluid" />
                 </div>
 
             </div>
             <div className="listingProducts related">
-                < BestSellingProducts slideTOshow={4} heading={'Related Product'} />
+                < BestSellingProducts slideTOshow={4} heading={'Related Product'} productId={product._id} />
             </div>
             <Footer />
         </>

@@ -13,6 +13,13 @@ import BlogDetails from './pages/BlogDetails'
 import About from './pages/About'
 import ScrollToTop from './components/ScrollToTop'
 import ContextProvider from './context/ContextProvider'
+import BecomeADealer from './pages/BecomeADealer'
+import Checkout from './pages/Checkout'
+import PrivacyPolicy from './pages/PrivacyPolicy'
+import TermCondition from './pages/TermCondition'
+import MyAddress from './pages/MyAddress'
+import MyOrder from './pages/MyOrder'
+import OrderDetails from './pages/OrderDetails'
 
 function App() {
 
@@ -23,15 +30,23 @@ function App() {
           <ScrollToTop />
           <Routes>
             <Route path='/' element={<Landing />} />
-            <Route path='/product' element={<ProductListing />} />
-            <Route path='/product/:slug' element={<ProductDetails />} />
+            <Route path='/:slug' element={<ProductListing />} />
+            <Route path='/:catslug/:slug' element={<ProductDetails />} />
             <Route path='/login' element={<LoginSignup />} />
             <Route path='/otp' element={<Otp />} />
             <Route path='/account' element={<Admin />} />
+            <Route path='/address' element={<MyAddress />}  />
+            <Route path='/order' element={<MyOrder />}  />
+            <Route path='/order-details' element={<OrderDetails />}  />
             <Route path='/contact-us' element={<ContactUsPage />} />
             <Route path='/blog' element={<BlogListing />} />
             <Route path='/blog-details' element={<BlogDetails />} />
             <Route path='/about' element={<About />} />
+            <Route path='/become-a-dealer' element={<BecomeADealer />} />
+            <Route path='/checkout' element={<Checkout />} />
+            <Route path='/privacy' element={<PrivacyPolicy />} />
+            <Route path='/term-and-condition' element={<TermCondition />} />
+
           </Routes>
         </BrowserRouter>
       </ContextProvider>

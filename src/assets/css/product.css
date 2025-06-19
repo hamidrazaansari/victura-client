@@ -12,6 +12,8 @@
     margin: 10px;
     border-radius: 15px;
     height: 630px;
+        border: 1px solid #ffffff31;
+
 }
 .product-box::after{
     content: '';
@@ -26,7 +28,7 @@
     width: 60px;
 }
 .product-box:hover{
-    box-shadow: 1px 1px 15px #3e496a42;
+    border: 1px solid #3e496a42;
 ;
 }
 .shere-btn{
@@ -237,4 +239,7 @@ background-color: #000 !important;
 }
 .swal2-confirm{
     background-color: #3E496A !important;
+}
+.BestSellingProducts .product-box img{
+    height: 300px;
 }

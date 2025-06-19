@@ -9,6 +9,7 @@ function Searchbar() {
       <Dropdown.Toggle variant="transparent" id="dropdown-basic">
             <img className='img-fluid' src={Search} alt="search icon" />
       </Dropdown.Toggle>
+    <div className="searching">
 
       <Dropdown.Menu>
             <div className="searchBox">
@@ -21,6 +22,8 @@ function Searchbar() {
 
             
       </Dropdown.Menu>
+    </div>
+
     </Dropdown>
   );
 }

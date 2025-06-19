@@ -99,7 +99,7 @@ function Experience() {
                                 </div>
 
                                 {/* Down Light */}
-                                <div className="direction donw_l_btn">
+                                {/* <div className="direction donw_l_btn">
                                     <div className="d-flex mb-3 align-items-center justify-content-center w-100">
                                         <button
                                             className={`light c_white ${lightColor === 'cool' ? 'active' : ''}`}
@@ -127,7 +127,7 @@ function Experience() {
                                             Yellow
                                         </button>
                                     </div>
-                                </div>
+                                </div> */}
 
                                 <div className="remoreLogo">
                                     <img src={remoteLogo} alt="remoteLogo" />
@@ -143,7 +143,7 @@ function Experience() {
                                     className={`brown_fan_list mw-100 fan-image mt-5 ${isFanOn ? `rotate speed-${speed} ${direction}` : ''}`}
                                     src={RotateImg}
                                     alt="Brown Fan"
-                                    width="580"
+                                    width="480"
                                 />
                                 {lightColor === 'cool' && (
                                     <div className="fan_light cool_white">

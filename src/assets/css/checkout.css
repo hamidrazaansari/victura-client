@@ -1,0 +1,283 @@
+
+ .checkout .dashboard {
+    border: none;
+    padding: 30px;
+    border-radius: 8px;
+    margin-left: 5px;
+    width: 100%;
+    padding-top: 0;
+}
+.checkout .addBox {
+    width: 85%;
+    padding: 11px 25px;
+    border: 1px solid #9898984f;
+    font-family: 'inter';
+    font-size: 15px;
+    line-height: 24px;
+    border-radius: 3px;
+    margin: 5px;
+    position: relative;
+}
+.checkout .addBox p{
+    font-family: inter;
+    font-size: 15px;
+    margin-bottom: 0;
+    text-wrap: no-wrap;
+}
+.checkout .addBox button{
+    border: none;
+    background: transparent;
+    text-decoration: underline;
+    font-family: inter;
+    font-size: 15px;
+    color: #000;
+    padding: 5px;
+}
+.checkout h2{
+    font-family: 'inter';
+    font-size: 23px;
+    font-weight: 600;
+    margin-top: 20px;
+    margin-bottom: 18px;
+
+}
+.checkout .dashboard h3{
+    display: none;
+}
+.checkout .productbox {
+    padding: 16px 0;
+    align-items: center;
+    justify-content: center;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    border-bottom: 0;
+    margin-top: 60px;
+}
+.checkout .productbox img{
+    height: 160px;
+    width: 200px;
+}
+.checkout .productbox h4{
+        font-family: 'inter';
+    font-size: 16px;
+}
+.checkout .productbox .qty {
+    font-family: 'inter';
+    color: #474747;
+    font-size: 14px;
+    font-weight: 800;
+}
+
+.checkout .productbox .colorSize span {
+    background-color: #ECECEC;
+    margin-right: 15px;
+    color: #000;
+    font-family: inter;
+    font-size: 12px;
+    padding: 10px 25px;
+}
+.checkout .summary-box{
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
+    padding: 20px;
+    padding-top: 25px;
+    font-family: inter;
+    margin-left: 20%;
+    width: 70%;
+}
+.checkout .summary-box p{
+    margin-bottom: 0;
+}
+
+.checkout .summary-box h3{
+    font-size: 20px;
+    font-family: 'boldInter';
+}
+.checkout .cutomeaddaddressbtn{
+    border: none;
+    background: transparent;
+    font-size: 17px;
+    font-weight: bold;
+    font-family: inter;
+}
+
+.cuponBox{
+    padding: 20px;
+    border: 1px solid #DEDEDE;
+    border-radius: 6px;
+    margin: 0px;
+    margin-left: 165px;
+    width: 70%;
+    margin-top: 20px;
+
+}
+.cuponBox h2{
+    font-size: 15px;
+    margin-top: 0 !important;
+    font-weight: bold;
+    color: #000;
+}
+.cuponBox .form-control{
+    box-shadow: none !important;
+    border-color: #DEDEDE !important;
+    font-family: inter;
+}
+.cuponBox .accordion-button:focus {
+    z-index: 3;
+    outline: 0;
+    box-shadow: none !important;
+}
+.accordion-button:not(.collapsed) {
+    background-color: transparent !important;
+}
+.cuponBox .accordion-button{
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0  !important;
+    font-family: inter !important;
+    color: #000 !important;
+    font-weight: bold !important;
+    font-size: 15px !important;
+    margin-top: 15px !important;
+}
+.cuponBox .accordion-item{
+    border: none !important;
+}
+.cuponBox .cupon {
+    border: 1px solid #DEDEDE;
+    border-radius: 6px;
+    padding: 10px;
+    margin: 10px !important;
+    display: flex;
+    align-items: center;
+    background-color: #3e496a30;
+    justify-content: space-between;
+}
+.cuponBox .accordion-body{
+    padding: 0 !important;
+}
+.cuponBox .cupon p , .checkout .pricing p{
+    margin-bottom: 0;
+    font-family: inter;
+    font-size: 13px;
+    color: #474747;
+}
+.cuponBox .cupon p{
+    font-size: 12px;
+}
+.cuponBox .cupon h3 {
+    font-family: boldInter;
+    font-size: 14px;
+    margin: 0;
+}
+.cuponBox .cupon .apply {
+    border: none;
+    background: transparent;
+    color: #3E496A;
+    font-family: 'inter';
+    font-weight: 600;
+    font-size: 15px;
+}
+.cuponBox .accordion-button::after{
+    margin-left: 15px !important;
+}
+.checkout .pricing{
+    width: 70%;
+    margin-left: 160px;
+    padding: 10px;
+}
+.checkout .pricing h2{
+    margin-bottom: 0;
+    font-size: 17px;
+    font-weight: bold;
+    color: #000;
+    font-family: inter;
+}
+
+.checkout .pricing .form-check{
+        padding: 15px 30px;
+    border: 1px solid #000;
+    border-radius: 4px;
+    display: flex !important;
+    align-items: center !important;
+    /* justify-content: center; */
+}
+.checkout .pricing .form-check label{
+    
+    display: inline-block;
+    margin-left: 22px;
+    font-family: 'inter';
+    font-size: 16px;
+}
+.checkout .pricing .form-check .form-check-input {
+    float: left;
+    margin-left: -0.5em !important;
+}
+.checkout .productbox img {
+    height: 120px;
+    width: 130px;
+    background: #fff;
+    margin: 10px;
+    padding: 5px;
+    border-radius: 6px;
+    border: 1px solid #DEDEDE;
+        margin-right: 30px;
+}
+.checkout .productbox .productInfo{
+    position: relative;
+}
+.checkout .productbox .saleprice {
+    position: absolute;
+    top: 3px;
+    right: -22px;
+    font-family: 'inter';
+    font-size: 14px;
+}
+.checkout .summary-box .add-to-cart-btn {
+    width: 100%;
+    border: none;
+    background: #3E496A;
+    color: #fff;
+    padding: 10px;
+    margin-bottom: 20px;
+    font-family: 'inter';
+    border-radius: 6px;
+    margin: 10px 0;
+    margin-bottom: 40px;
+    height: 60px;
+    text-transform: uppercase;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+.addBox .edit-btn{
+    position: absolute;
+    top: 0px;
+    right: 10px;
+    font-size: 11px !important;
+}
+
+.stickySummary {
+    position: sticky;
+    top: 100px;
+}
+.addreses .login-box{
+    width: 70%;
+    padding: 0;
+    margin: 0 ;
+    margin-left: 50px ;
+}
+.addreses .login-box .input-box .inputMobile{
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+}
+.addreses .login-box .add-to-cart-btn{
+    margin: 20px 0;
+}
+.cuponField{
+        height: 45px;
+    margin: 10px;
+    font-size: 14px;
+    letter-spacing: 1px;
+    font-weight: 700;
+    color: #00000099;
+}

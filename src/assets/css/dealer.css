@@ -1,0 +1,72 @@
+.banneerSection {
+    background: #3E496A;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 304px;
+}
+
+.banneerSection h1 {
+    font-family: boldInter;
+    font-size: 50px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.becomeadealer .info h2 {
+    font-family: inter;
+    font-size: 30px;
+}
+
+.becomeadealer .info p {
+    font-family: inter;
+    color: #3E496A;
+}
+
+.becomeadealer .info h3 {
+    font-family: 'boldInter';
+    font-size: 20px;
+    margin: 10px 0;
+}
+
+.formbox {
+    width: 830px;
+    margin: 50px auto;
+    padding: 40px 50px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0px 2px 19px #c8c8c84a;
+}
+
+.formbox .form-group input {
+    border: none !important;
+}
+
+.formbox .input-box .form-group input:focus {
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+.formbox .error {
+    color: red;
+    position: absolute;
+    bottom: -18px;
+    left: 6px;
+    font-size: 12px;
+}
+
+.factory {
+    margin: 40px 0;
+}
+
+.factory img {
+    height: 380px;
+}
+
+.factory h3 {
+    font-family: 'boldInter';
+    font-size: 40px;
+    padding: 0 53px;
+}

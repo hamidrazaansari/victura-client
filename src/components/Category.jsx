@@ -48,7 +48,7 @@ function Category() {
                             <div className="image-box-long">
                                 <img src={`${FileUrl}/${featuredCategory?.image}`} alt={featuredCategory.slug} />
                                 <h3>{featuredCategory?.name?.slice(0 , 4)}</h3>
-                                <Link className="fan-btn text-center" style={{textDecoration:"none"}}  to={`/product`} state={featuredCategory._id}>Ceiling Fan</Link>
+                                <Link className="fan-btn text-center" style={{textDecoration:"none"}}  to={`/${featuredCategory?.slug}`} state={featuredCategory._id}>Ceiling Fan</Link>
                             </div>
                         </div>
 
@@ -58,7 +58,7 @@ function Category() {
                                 {otherCategories.map((category) => (
                                     <div className="image-box" key={category._id}>
                                         <img src={`${FileUrl}/${category.image}`} alt={category.slug} />
-                                        <Link className="fan-btn text-center " style={{textDecoration:"none"}} to={`/product`} state={category._id}>{category.name}</Link>
+                                        <Link className="fan-btn text-center " style={{textDecoration:"none"}} to={`/${category.slug}`} state={category._id}>{category.name}</Link>
                                     </div>
                                 ))}
                             </div>

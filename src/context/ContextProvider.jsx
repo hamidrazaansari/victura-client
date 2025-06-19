@@ -20,7 +20,7 @@ const ContextProvider = ({ children }) => {
 
   const [count, setCount] = useState(getStoredCount());
   const [data, setData] = useState(getStoredData());
-
+  const [isDuplicateItem, setIsDuplicateItem] = useState({});
   const [quantities, setQuantities] = useState({});
 
   const setQuantity = (productId, qty) => {
@@ -40,23 +40,29 @@ const ContextProvider = ({ children }) => {
   }, [count]);
 
   // Function to add data to cart
-  const addData = (newData) => {
-    // // Check if the item already exists in the cart
-    const isDuplicate = data.some(item => item._id === newData._id);
-    if (isDuplicate) {
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: "This item is already in the cart!",
-      });
-      return;
-    }
+const addData = (newData) => {
+  const isDuplicate = data.some(item => item._id === newData._id);
 
-    // // Add categoryId to newData
+  if (isDuplicate) {
+    setIsDuplicateItem(prev => ({
+      ...prev,
+      [newData._id]: true
+    }));
+    return false; // Already exists
+  }
 
-    setData(prevData => [...prevData, newData]);
-    setCount(prevCount => prevCount + 1);
-  };
+  // Add new item to cart
+  setData(prevData => [...prevData, newData]);
+  setCount(prevCount => prevCount + 1);
+
+  // Set isDuplicateItem for this product to true (added)
+  setIsDuplicateItem(prev => ({
+    ...prev,
+    [newData._id]: true
+  }));
+
+  return true;
+};
 
   // Function to clear only checked data
   //   const clearCheckedData = () => {
@@ -75,10 +81,17 @@ const ContextProvider = ({ children }) => {
   //   };
 
   // Function to remove an item by ID
-  const removeItemById = (id) => {
-    setData(prevData => prevData.filter(item => item._id !== id));
-    setCount(prevCount => Math.max(prevCount - 1, 0)); // Prevent negative count
-  };
+const removeItemById = (id) => {
+  setData(prevData => prevData.filter(item => item._id !== id));
+  setCount(prevCount => Math.max(prevCount - 1, 0));
+
+  // Remove duplicate flag for this ID
+  setIsDuplicateItem(prev => {
+    const updated = { ...prev };
+    delete updated[id]; // ✅ This is essential
+    return updated;
+  });
+};
 
   // Function to completely clear the cart
   //   const clearCart = () => {
@@ -92,7 +105,7 @@ const ContextProvider = ({ children }) => {
   return (
     <>
       {/* <ToastContainer/> */}
-      <CounterContext.Provider value={{ count, addData, data, removeItemById, quantities, setQuantity }}>
+      <CounterContext.Provider value={{ count, addData, data, removeItemById, quantities, setQuantity, isDuplicateItem }}>
         {children}
       </CounterContext.Provider>
     </>

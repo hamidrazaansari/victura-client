@@ -148,16 +148,39 @@
     background-color: #fff;
 }
 .product-container{
-    height: 70%;
+    height: 400px;
     overflow-y: scroll;
+    width: 100% !important;
+    overflow-x: hidden;
+    /* Optional: Makes the scrollbar always visible */
+    scrollbar-width: thin; /* For Firefox */
+    scrollbar-color: #888 #f1f1f1; /* thumb color, track color */
+}
+
+.product-container::-webkit-scrollbar {
+    width: 6px; /* Width of the scrollbar */
+}
+
+.product-container::-webkit-scrollbar-track {
+    background: #fff; /* Track color */
+    border-radius: 10px;
+}
+
+.product-container::-webkit-scrollbar-thumb {
+    background: #3E496A; /* Scroll thumb color */
+    border-radius: 10px;
+}
+
+.product-container::-webkit-scrollbar-thumb:hover {
+    background: #d9dade !important; /* Thumb color on hover */
 }
 
 .cart-indecator{
     position: absolute;
-    top: 0;
+    top: -3px;
     left: 35px;
     color: #d6241c;
-    font-size: 12px;
+    font-size: 15px;
 }
 .related-product .slick-dots li {
     position: relative;
@@ -167,4 +190,7 @@
     margin: 0 0px;
     padding: 0;
     cursor: pointer;
+}
+.empty-cart{
+     margin-top: 30%;
 }

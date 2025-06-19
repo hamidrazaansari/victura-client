@@ -20,7 +20,7 @@ function NavBar() {
 
   const handleNavClose = () => setShowNav(false);
   const handleShowNav = () => setShowNav(true);
-  const token = localStorage.getItem('token')
+  const token = localStorage.getItem('victuraAuthToken')
   
 
   return (
@@ -28,14 +28,14 @@ function NavBar() {
     <div className="navbar-top">
       <div className="container d-flex align-items-center justify-content-end">
         <p className='para'>We make every motor run efficiently</p>
-        <div className='d-flex socal'>
+        <a style={{textDecoration:"none"}}  href='tel:+917669015000' className='d-flex socal'>
           <img src={call} alt="icpn" className='img-fluid' />
           <p>+(91) 7669015000</p>
-        </div>
-        <div className='d-flex socal'>
+        </a>
+        <a style={{textDecoration:"none"}} href='mailto:fansales@victora.co.in' className='d-flex socal'>
           <img src={Mail} alt="icpn" className='img-fluid' />
           <p>fansales@victora.co.in</p>
-        </div>
+        </a>
       </div>
     </div>
       <Navbar expand="lg" className="navbar sticky-top d-flex justify-content-between align-items-center">
@@ -58,8 +58,8 @@ function NavBar() {
               <Nav.Link >Support & Warranty</Nav.Link>
             </Nav.Item>
 
-            <Nav.Item href="/">
-              <Nav.Link >Become A Dealer</Nav.Link>
+            <Nav.Item>
+              <Nav.Link as={Link} to={'/become-a-dealer'} >Become A Dealer</Nav.Link>
             </Nav.Item>
 
             <Nav.Item >

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import Fan from '../assets/image/product/fan.png';
+import Fan from '../assets/image/socalMedia/fan.png';
 import '../assets/css/product.css';
 import { MdOutlineFileUpload } from "react-icons/md";
 import { CounterContext } from '../context/ContextProvider';
@@ -11,7 +11,7 @@ function ProductBox({ product }) {
   const [selectedVariant, setSelectedVariant] = useState(null);
   const [selectedSize, setSelectedSize] = useState(null);
 
-  const { addData } = useContext(CounterContext);
+  const { addData, isDuplicateItem } = useContext(CounterContext);
 
   // Set default variant and size
   useEffect(() => {
@@ -40,27 +40,32 @@ function ProductBox({ product }) {
   };
 
   // Add to cart with selected variant and size
-  const handeAddToCart = () => {
-    if (!selectedVariant || !selectedSize) return;
+const handeAddToCart = () => {
+  if (!selectedVariant || !selectedSize) return;
 
-    const cartItem = {
-      ...product,
-      selectedVariant,
-      selectedSize
-    };
-
-    addData(cartItem);
+  const cartItem = {
+    ...product,
+    selectedVariant,
+    selectedSize
   };
+
+  const added = addData(cartItem);
+
+  // if (!added) {
+  //   navigate('/cart'); // redirect if already in cart
+  // }
+};
 
 
   return (
     <>
       <ToastContainer />
       <div className='product-box'>
-        <button className='shere-btn'>Share <MdOutlineFileUpload /></button>
+        {/* <button className='shere-btn'>Share <MdOutlineFileUpload /></button> */}
         <div className='product-box-image'>
-          <Link to={`/product/${product?.slug}`} state={product._id}>
-            <img src={Fan} alt="product" />
+          <Link to={`/${product?.category?.slug}/${product?.slug}?id=${product._id}`}>
+            {/* <img src={`${FileUrl}/${selectedSize?.images[0]}`} alt={product.slug} /> */}
+            <img src={Fan} alt={product.slug} />
           </Link>
         </div>
         <div className='w-100' style={{ marginBottom: "76px" }}>
@@ -123,7 +128,9 @@ function ProductBox({ product }) {
           </div>
         </div>
 
-        <button className='add-to-cart-btn' onClick={handeAddToCart}>ADD TO CART</button>
+        <button className='add-to-cart-btn' onClick={handeAddToCart}>
+          {!isDuplicateItem[product._id] ? 'ADD TO CART' : 'GO TO CART'}
+        </button>
       </div>
     </>
 

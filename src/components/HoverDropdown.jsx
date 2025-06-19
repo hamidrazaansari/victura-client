@@ -8,7 +8,7 @@ import { BaseUrl, FileUrl } from '../utills/BaseUrl';
 function HoverDropdown({ handleNavClose }) {
   const [show, setShow] = useState(false);
   const [categories, setCategories] = useState([]);
-  const [catActiveImage, setActiveCatImage] = useState(categories[1]?.image);
+  const [catActiveImage, setActiveCatImage] = useState('');
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [activeSlug, setActiveSlug] = useState('bldc-ceiling-fan');
@@ -23,7 +23,7 @@ function HoverDropdown({ handleNavClose }) {
         // Default to BLDC category if exists
         const bldcCategory = catData.find(cat => cat.slug === 'bldc-ceiling-fan');
         if (bldcCategory) {
-          setActiveCatImage(bldcCategory.image);
+          setActiveCatImage(bldcCategory.megamenuImage);
         }
       })
       .catch((err) => console.error("Categories fetch failed", err));
@@ -46,14 +46,11 @@ function HoverDropdown({ handleNavClose }) {
   const handleMouseEnter = () => setShow(true);
   const handleMouseLeave = () => setShow(false);
 
-  const handleHover = (slug, categoryImage) => {
-    setActiveCatImage(categoryImage);
+  const handleHover = (slug, ) => {
     setActiveSlug(slug)
     const filtered = products.filter(p => p?.category?.slug === slug);
     setFilteredProducts(filtered);
-  };
-
-  console.log(activeSlug);
+  };  
 
   return (
     <>
@@ -64,7 +61,7 @@ function HoverDropdown({ handleNavClose }) {
             key={idx}
             onMouseEnter={() => handleHover(cat?.slug, cat?.image)}
           >
-            <Link to='/product' state={cat._id}
+            <Link to={`/${cat.slug}`} state={cat._id}
                         style={{ backgroundColor: activeSlug === cat?.slug ? '#fff !important' : 'transparent' }}
             >
               <span>{cat.name}</span> <IoIosArrowForward />
@@ -90,8 +87,8 @@ function HoverDropdown({ handleNavClose }) {
               {/* Category List */}
               <div className="col-3">
                 {categories.map((cat, idx) => (
-                  <Dropdown.Item key={idx} onMouseEnter={() => handleHover(cat?.slug, cat?.image)}>
-                    <Link to='/product' state={cat._id}>
+                  <Dropdown.Item key={idx} onMouseEnter={() => handleHover(cat?.slug)}>
+                    <Link to={`/${cat.slug}`} state={cat._id}>
                       <span>{cat.name}</span> <IoIosArrowForward />
                     </Link>
                   </Dropdown.Item>
@@ -111,7 +108,7 @@ function HoverDropdown({ handleNavClose }) {
                   {filteredProducts.length > 0 ? (
                     filteredProducts.map((fan, index) => (
                       <div className="col-6" key={index}>
-                        <Link style={{textDecoration:"none"}} to={`/product/${fan?.slug}`} state={fan._id}>
+                        <Link style={{textDecoration:"none"}} to={`/${fan?.category?.slug}/${fan?.slug}?id=${fan._id}`}>
                         <div className="fan">
                           <h3>{fan.name}</h3>
                           <p>Explore ({fan?.variants?.length || 0} Variants)</p>
