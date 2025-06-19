@@ -26,7 +26,7 @@ function App() {
   return (
     <>
       <ContextProvider>
-        <BrowserRouter>
+        <BrowserRouter basename='/victura'>
           <ScrollToTop />
           <Routes>
             <Route path='/' element={<Landing />} />

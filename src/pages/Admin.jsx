@@ -14,7 +14,7 @@ import { PiBuildingOfficeFill } from "react-icons/pi";
 
 import { toast } from 'react-toastify';
 import Swal from 'sweetalert2';
-import AdminSIdebar from '../components/AdminSidebar';
+import AdminSidebar from '../components/AdminSidebar';
 import Gender from '../components/Gender';
 
 
@@ -53,7 +53,7 @@ function Admin() {
                 <div className="container">
                     <div className="row">
                         <div className="col-lg-4">
-                            <AdminSIdebar userData={data} />
+                            <AdminSidebar userData={data} />
                         </div>
                         <div className="col-lg-8">
                             <form action="#" class="form-account-details form-has-password">
