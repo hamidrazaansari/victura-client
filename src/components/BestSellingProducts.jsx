@@ -4,7 +4,6 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
-
 import { MdOutlineKeyboardArrowLeft } from "react-icons/md";
 import ScrollAnimation from 'react-animate-on-scroll';
 import axios from 'axios'
@@ -63,7 +62,6 @@ function BestSellingProducts({ slideTOshow, heading  , productId }) {
         <ScrollAnimation animateIn="fadeInUp">
           <h2 className='heading'> <span></span> {heading} <span></span></h2>
         </ScrollAnimation>
-        <ScrollAnimation animateIn="fadeInUp">
           <Slider {...settings}>
 
             {products && products.map((product, index) => {
@@ -78,7 +76,6 @@ function BestSellingProducts({ slideTOshow, heading  , productId }) {
             )}
 
           </Slider>
-        </ScrollAnimation>
       </div>
     </div>
   )

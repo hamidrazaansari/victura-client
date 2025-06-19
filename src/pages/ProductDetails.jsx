@@ -32,6 +32,7 @@ import axios from 'axios'
 import { BaseUrl, FileUrl } from '../utills/BaseUrl'
 import parse from 'html-react-parser'
 import ShereModal from '../components/ShereModal';
+import RatingReview from '../components/RatingReview';
 
 // related Product Slider 
 const sliderSettings = {
@@ -381,6 +382,9 @@ const ProductDetails = () => {
             <div className="listingProducts related">
                 < BestSellingProducts slideTOshow={4} heading={'Related Product'} productId={product._id} />
             </div>
+
+            <RatingReview/>
+
             <Footer />
         </>
     )
