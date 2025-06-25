@@ -126,14 +126,12 @@ function MyAddress() {
                                             return (
                                                 <div className="addBox" key={ind}>
                                                     <span>{add.addressType === "HOME" ? <FaHome /> : <PiBuildingOfficeFill />}</span>
-                                                    <p>
-                                                        {add.name}  <br />
-                                                        {add.address} <br />
-                                                        {add.city}  <br />
-                                                        {add.state} <br />
-                                                        {add?.country}  <br />
-                                                        {add.mobile}  <br />
-                                                        {add.pincode}</p>
+                                                    <p>{add.name}  {add.address}    {add.city}   {add.state}  {add?.country}  {add.mobile} <br /> {add.pincode}</p>
+                                                       
+                                                        
+                                                        
+                                                          
+                                                        
                                                     <div className="d-flex">
                                                         <button onClick={() => handleEditAddress(add)}>Edit</button>
                                                         <button onClick={() => handleDelete(add._id)}>Delete</button>

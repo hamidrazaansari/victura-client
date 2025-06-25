@@ -101,7 +101,7 @@ const ProductDetails = () => {
     };
 
     // adding Data to cart
-    const { addData, isDuplicateItem } = useContext(CounterContext);
+    const { addData, isDuplicateItem , openCartSidebar } = useContext(CounterContext);
 
     const handeAddToCart = () => {
         if (!selectedVariant || !selectedSize) return;
@@ -112,7 +112,12 @@ const ProductDetails = () => {
             selectedSize
         };
 
-        addData(cartItem);
+        const addedToCart = addData(cartItem);
+
+        if(addedToCart){
+            openCartSidebar()
+        }
+
     }
 
 

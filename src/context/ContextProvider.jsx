@@ -23,6 +23,11 @@ const ContextProvider = ({ children }) => {
   const [isDuplicateItem, setIsDuplicateItem] = useState({});
   const [quantities, setQuantities] = useState({});
 
+      // ✅ CartSidebar state
+    const [showCartSidebar, setShowCartSidebar] = useState(false);
+    const openCartSidebar = () => setShowCartSidebar(true);
+    const closeCartSidebar = () => setShowCartSidebar(false);
+
   const setQuantity = (productId, qty) => {
     setQuantities(prev => ({
       ...prev,
@@ -82,13 +87,18 @@ const addData = (newData) => {
 
   // Function to remove an item by ID
 const removeItemById = (id) => {
+  // Remove the item from data
   setData(prevData => prevData.filter(item => item._id !== id));
+
+  // Decrease the count safely
   setCount(prevCount => Math.max(prevCount - 1, 0));
 
-  // Remove duplicate flag for this ID
+  // Remove the duplicate flag for this ID
   setIsDuplicateItem(prev => {
     const updated = { ...prev };
-    delete updated[id]; // ✅ This is essential
+    if (updated.hasOwnProperty(id)) {
+      delete updated[id]; // ✅ Cleanly remove key
+    }
     return updated;
   });
 };
@@ -105,7 +115,9 @@ const removeItemById = (id) => {
   return (
     <>
       {/* <ToastContainer/> */}
-      <CounterContext.Provider value={{ count, addData, data, removeItemById, quantities, setQuantity, isDuplicateItem }}>
+      <CounterContext.Provider value={{ count, addData, data, removeItemById, quantities, setQuantity, isDuplicateItem , showCartSidebar,
+                openCartSidebar,
+                closeCartSidebar }}>
         {children}
       </CounterContext.Provider>
     </>

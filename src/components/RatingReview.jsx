@@ -138,6 +138,7 @@ function RatingReview() {
                 </div>
             </div>
             <div className="review-boxes">
+                <div className="container">
                 <div className="row">
                     <div className="col-lg-3">
                         <div className="d-flex align-items-center">
@@ -173,9 +174,11 @@ function RatingReview() {
                     <div className="col-lg-2">
                         <p>29/06/2024</p>
                     </div>
+                </div>
                 </div>
             </div>
             <div className="review-boxes">
+                <div className="container">
                 <div className="row">
                     <div className="col-lg-3">
                         <div className="d-flex align-items-center">
@@ -211,9 +214,11 @@ function RatingReview() {
                     <div className="col-lg-2">
                         <p>29/06/2024</p>
                     </div>
+                </div>
                 </div>
             </div>
             <div className="review-boxes">
+                <div className="container">
                 <div className="row">
                     <div className="col-lg-3">
                         <div className="d-flex align-items-center">
@@ -250,7 +255,9 @@ function RatingReview() {
                         <p>29/06/2024</p>
                     </div>
                 </div>
+                </div>
             </div>
+
         </>
 
     )

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import NavBar from '../components/NavBar'
 import axios from 'axios'
 import { BaseUrl, FileUrl } from '../utills/BaseUrl'
@@ -9,20 +9,24 @@ import { PiBuildingOfficeFill } from "react-icons/pi";
 import { useLocation } from 'react-router-dom'
 import '../assets/css/checkout.css'
 import Fan from '../assets/image/product/fan.png'
-import Accordion from 'react-bootstrap/Accordion';
 import { toast, ToastContainer } from 'react-toastify'
 import CheckoutLogin from '../components/CheckoutLogin'
+import Coupon from '../components/Coupon'
+import CheckoutAddress from '../components/CheckoutAddress'
 
 
 function Checkout() {
     const [edit, setEdit] = useState(false)
     const [data, setData] = useState([])
-    const [cupon, setCupon] = useState('')
-    const [cuponCode, setCuponCode] = useState('')
     const [editAddress, setEditAddress] = useState(null)
     const [isEditing, setIsEditing] = useState(false)
+    const [selectedAddressId, setSelectedAddressId] = useState(null);
     const [appliedDiscount, setAppliedDiscount] = useState(0);
-    const [appliedCouponCodes, setAppliedCouponCodes] = useState([]);
+    const [cupon, setCupon] = useState('')
+    const [cuponCode, setCuponCode] = useState('')
+    const [appliedCouponCodes, setAppliedCouponCodes] = useState('');
+    const [cuponsError, setCuponsError] = useState('')
+
 
 
     const [orderData, setOrderData] = useState({
@@ -32,11 +36,19 @@ function Checkout() {
         paymentMethod: "cod"
     });
 
+    console.log(orderData);
+
+
     const token = localStorage.getItem('victuraAuthToken')
 
     const location = useLocation()
     const cartdata = location.state?.data || [];
-    const totalPrice = location.state?.totalPrice || 0;
+    const totalPrice = location.state.totalMrp || 0;
+    const totalDiscount = location.state.totalDiscount || 0;
+
+    const childSubmitRef = useRef(null); // useRef to store the child's submit function
+
+
 
 
     const fetchData = async () => {
@@ -45,14 +57,42 @@ function Checkout() {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 }
-            })
-            const addresses = response.data?.body || []
-            setData(addresses)
-            setEdit(addresses.length === 0) // ✅ Open form directly if 0 address
-            setIsEditing(false)
-            setEditAddress(null)
+            });
+            const addresses = response.data?.body || [];
+
+            setData(addresses);
+            setEdit(addresses.length === 0); // ✅ Show form if no address
+            setIsEditing(false);
+            setEditAddress(null);
+
+            if (addresses.length > 0) {
+                const firstAddress = addresses[0];
+                setSelectedAddressId(firstAddress._id); // ✅ Select default
+
+                const addressObj = {
+                    name: firstAddress.name,
+                    email: firstAddress.email,
+                    state: firstAddress.state,
+                    city: firstAddress.city,
+                    line1: firstAddress.line1,
+                    line2: firstAddress.line2,
+                    line3: firstAddress.line3,
+                    locality: firstAddress.locality,
+                    landmark: firstAddress.landmark,
+                    contact: firstAddress.contact,
+                    zipcode: firstAddress.zipcode,
+                    addressType: firstAddress.addressType
+                };
+
+                setOrderData(prev => ({
+                    ...prev,
+                    shippingAddress: addressObj,
+                    billingAddress: addressObj
+                }));
+            }
+
         } catch (err) {
-            console.error('Error fetching address:', err)
+            console.error('Error fetching address:', err);
         }
     }
 
@@ -93,6 +133,7 @@ function Checkout() {
     }, [cartdata]);
 
     const handleTakeAddreseData = (selectedAddress) => {
+        setSelectedAddressId(selectedAddress._id)
         const addressObj = {
             name: selectedAddress.name,
             line1: selectedAddress.address,
@@ -112,15 +153,21 @@ function Checkout() {
     };
 
     const handleGetFormData = (formData) => {
+        console.log('for', formData);
+
         const addressObj = {
             name: formData.name,
-            line1: formData.address,
-            city: formData.city,
+            email: formData.email,
             state: formData.state,
-            country: formData.country,
-            contact: formData.mobile,
-            zipcode: formData.pincode,
-            type: formData.addressType
+            city: formData.city,
+            line1: formData.line1,
+            line2: formData.line2,
+            line3: formData.line3,
+            locality: formData.locality,
+            landmark: formData.landmark,
+            contact: formData.contact,
+            zipcode: formData.zipcode,
+            addressType: formData.addressType
         };
 
         setOrderData(prev => ({
@@ -131,66 +178,70 @@ function Checkout() {
 
     }
 
+    const handleAddSubmit = async () => {
+        if (childSubmitRef.current) {
+            return await childSubmitRef.current(); // ✅ await the child's promise
+        }
+        return true; // fallback
+    };
+
     const handlePlaceOrder = async () => {
+        const addressSaved = await handleAddSubmit();
+
+        if (!addressSaved) {
+            toast.error("Failed to save address");
+            return;
+        }
 
         try {
-
             const response = await axios.post(`${BaseUrl}/orders`, orderData, {
                 headers: { Authorization: `Bearer ${token}` }
-            })
+            });
 
             if (response.status === 200) {
-                toast.success(response.data?.message)
+                toast.success(response.data?.message);
+                // redirect or clear cart if needed
             }
-
         } catch (error) {
             console.log(error);
-            toast.error(error?.response?.data?.message)
-
-
+            toast.error(error?.response?.data?.message || 'Failed to place order');
         }
-    }
+    };
 
-    useEffect(() => {
-        const fetchCupon = async () => {
-            try {
-                const response = await axios.get(`${BaseUrl}/coupons`);
-                setCupon(response.data?.body);
-                console.log(response.data);
 
-            } catch (error) {
-                console.error("Failed to fetch coupons:", error);
-            }
-        };
-
-        fetchCupon();
-    }, []);
-
-    const handleCuponApply = (cuponCode) => {
-        const foundCupon = cupon.find(c => c.couponCode === cuponCode);
+    const handleCuponApply = (code) => {
+        const foundCupon = cupon.find(c => c.couponCode === code);
 
         if (!foundCupon) {
-            toast.error("Invalid Coupon Code");
+            setCuponsError("Invalid Coupon Code");
+            return;
+        }
+
+        // Prevent re-applying same coupon
+        if (code === appliedCouponCodes) {
+            setCuponsError("Coupon already applied.");
             return;
         }
 
         let discount = 0;
-
         if (foundCupon.discountType === "AMOUNT") {
             discount = foundCupon.discount;
-        } else if (foundCupon.discountType === "PERCENT") {
+        } else if (foundCupon.discountType === "PERCENTAGE") {
             discount = (totalPrice * foundCupon.discount) / 100;
         }
 
         setAppliedDiscount(discount);
-        setAppliedCouponCodes((prev) => [...prev, cuponCode]);
-        toast.success(`Coupon applied! You saved ₹${discount}`);
+        setAppliedCouponCodes(code);
+        setCuponCode(code); // Show it in input
+        setCuponsError('')
     };
 
-    const handleCuponClick = (code) => {
-        setCuponCode(code)
-        handleCuponApply(code)
-    }
+    const handleRemoveCoupon = () => {
+        setAppliedDiscount(0);
+        setAppliedCouponCodes('');
+        setCuponCode('');
+        setCuponsError('')
+    };
 
     return (
         <>
@@ -208,7 +259,7 @@ function Checkout() {
                         <div className="addreses" style={{ paddingLeft: "20%" }}>
                             {/* ✅ Show list only if data exists */}
                             {data.length > 0 && data.map((add, ind) => (
-                                <div className="addBox" key={ind} onClick={() => (handleTakeAddreseData(add))}>
+                                <div className={`addBox ${selectedAddressId === add._id ? 'active' : ''}`} key={ind} onClick={() => (handleTakeAddreseData(add))}>
                                     <p className='fw-bold mb-0'>Ship to</p>
                                     {/* <div className="d-flex align-items-center justify-content-between">
                                             <span>{add.addressType === "HOME" ? <FaHome /> : <PiBuildingOfficeFill />}</span>
@@ -251,7 +302,8 @@ function Checkout() {
 
                                     ) : (
                                         // Otherwise, show Cancel button
-                                        <button className='cutomeaddaddressbtn mx-0 mt-3' onClick={() => setEdit(false)}>Cancel</button>
+                                        <></>
+                                        // <button className='cutomeaddaddressbtn mx-0 mt-3' onClick={() => setEdit(false)}>Cancel</button>
                                     )
                                 )
                             }
@@ -260,49 +312,17 @@ function Checkout() {
                         {/* ✅ Always show form if `edit` is true */}
                         {edit && (
                             <div className='mt-4' style={{ paddingLeft: "130px" }}>
-                                <Address
+                                <CheckoutAddress
+                                    onSaveData={handleGetFormData}
                                     editAddress={editAddress}
                                     isEditing={isEditing}
-                                    onSave={fetchData}
                                     setIsEditing={setEdit}
-                                    onSaveData={handleGetFormData}
-                                    indicator={true}
+                                    triggerSubmit={(submitFn) => (childSubmitRef.current = submitFn)}
                                 />
                             </div>
                         )}
 
-                        <div className="cuponBox">
-                            <h2>Apply Coupon Codes</h2>
-                            <div className="d-flex align-items-center justify-content-between">
-                                <input type="text" className='form-control cuponField' placeholder='Enter Discount Code'  value={cuponCode} />
-                                <button className='add-to-cart-btn' style={{ width: "130px", margin:"0" , marginRight: "10px", height: "45px" , fontSize:"14px" }} onClick={() => handleCuponApply(cuponCode)}>{appliedCouponCodes ? 'Applied' : 'Apply'}</button>
-                            </div>
-
-                            <Accordion defaultActiveKey="0">
-                                <Accordion.Item eventKey="0">
-                                    <Accordion.Header>All Coupons</Accordion.Header>
-                                    <Accordion.Body>
-                                        {
-                                            cupon && cupon.map((cupon, idx) => {
-                                                return (
-                                                    <>
-                                                        <div className=" cupon  cd-flex align-items-center justify-content-between">
-                                                            <div>
-                                                                <h3>{cupon.couponCode}</h3>
-                                                                <p>Flat {cupon.discount}{cupon.discountType === "AMOUNT" ? '₹' : "%"} Off on cart amount.</p>
-                                                            </div>
-                                                            <button className='apply' onClick={() => handleCuponClick(cupon.couponCode)}>{appliedCouponCodes.includes(cupon.couponCode) ? 'Applied' : 'Apply'}</button>
-                                                        </div>
-                                                    </>
-                                                )
-                                            })
-                                        }
-
-                                    </Accordion.Body>
-                                </Accordion.Item>
-                            </Accordion>
-
-                        </div>
+                        <Coupon setCupon={setCupon} handleCuponApply={handleCuponApply} setCuponCode={setCuponCode} cuponCode={cuponCode} cupon={cupon} appliedCouponCodes={appliedCouponCodes} handleRemoveCoupon={handleRemoveCoupon} cuponsError={cuponsError} />
 
                         <div className="pricing">
                             <h2>Payment</h2>
@@ -328,7 +348,7 @@ function Checkout() {
                             <div className="productbox">
                                 {cartdata && cartdata.map((product) => {
                                     return (
-                                        <div className='d-flex align-items-center justify-content-center' key={product._id}>
+                                        <div className='d-flex align-items-center' style={{ marginLeft: "100px" }} key={product._id}>
                                             <img src={`${FileUrl}/${product.selectedSize?.images[0]}`} alt="Fan" />
                                             <div className="productInfo">
                                                 <h4>{product.name}</h4>
@@ -351,6 +371,10 @@ function Checkout() {
                                     <span>{cartdata.length}</span>
                                 </div>
                                 <div className="d-flex align-items-center justify-content-between mb-3">
+                                    <p>Sub Total:</p>
+                                    <span>₹{totalPrice}.00</span>
+                                </div>
+                                <div className="d-flex align-items-center justify-content-between mb-3">
                                     <p>Shipping:</p>
                                     <span>₹0.00</span>
                                 </div>
@@ -360,17 +384,16 @@ function Checkout() {
                                 </div>
                                 <div className="d-flex align-items-center justify-content-between mb-3">
                                     <p>Discount:</p>
-                                    <span>₹{appliedDiscount}.00</span>
+                                    <span>-₹{totalDiscount}.00</span>
+                                </div>
+                                <div className="d-flex align-items-center justify-content-between mb-3">
+                                    <p>Coupon Discount:</p>
+                                    <span>-₹{appliedDiscount}.00</span>
                                 </div>
 
                                 <div className="d-flex align-items-center justify-content-between mb-3">
-                                    <p>Total:</p>
-                                    <span>₹{totalPrice}.00</span>
-                                </div>
-
-                                <div className="d-flex align-items-center justify-content-between mb-3">
-                                    <h3>Grand Total:</h3>
-                                    <h3>₹{(totalPrice + CODConvienceFee - appliedDiscount).toFixed(2)}</h3>
+                                    <h3>Total:</h3>
+                                    <h3>₹{((totalPrice + CODConvienceFee - totalDiscount) - appliedDiscount).toFixed(2)}</h3>
                                 </div>
                                 <button className='add-to-cart-btn' onClick={handlePlaceOrder}>Place Order</button>
                             </div>

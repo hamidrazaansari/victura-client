@@ -18,7 +18,8 @@ import { BsCartX } from "react-icons/bs";
 
 
 function CartSidebar() {
-    const [show, setShow] = useState(false);
+    const { showCartSidebar, closeCartSidebar , openCartSidebar } = useContext(CounterContext);
+
     const [reletedProduct, setReletedProduct] = useState([]);
 
     const { count, data, removeItemById, quantities } = useContext(CounterContext);
@@ -37,15 +38,13 @@ function CartSidebar() {
         fetchData();
     }, [data]);
 
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
 
-    const settings = {
+    const cartsettings = {
         dots: true,
         slidesToShow: 1,
         slidesToScroll: 1,
         arrows: false,
-        infinite: true,
+        infinite: false,
         autoplay: true,
         autoplaySpeed: 3000,
         cssEase: 'linear',
@@ -68,19 +67,21 @@ function CartSidebar() {
     const discountPercentage = totalMrp ? Math.round((totalDiscount / totalMrp) * 100) : 0;
 
     const navigate = useNavigate()
-    const handleCheckOut = () => {
-        navigate('/checkout', { state: { data, totalPrice: totalSalePrice } });
+
+    const handleCheckOut = () => {        
+        navigate('/checkout', { state: { data  , totalMrp , totalDiscount } });
+        closeCartSidebar()
     }
 
 
     return (
         <>
-            <Button variant="transparent" onClick={handleShow} className="me-2 position-relative">
+            <Button variant="transparent" onClick={openCartSidebar} className="me-2 position-relative">
                 <img className='img-fluid' src={Bag} alt="bag icon" />
                 {count > 0 && <span className='cart-indecator'>{count}</span>}
 
             </Button>
-            <Offcanvas show={show} className='cartSidebar' onHide={handleClose} placement='end' backdropClassName='offcanvasBackdrop' >
+            <Offcanvas show={showCartSidebar} className='cartSidebar' onHide={closeCartSidebar} placement='end' backdropClassName='offcanvasBackdrop' >
                 <Offcanvas.Header closeButton>
                     <Offcanvas.Title>My cart</Offcanvas.Title>
                 </Offcanvas.Header>
@@ -121,7 +122,7 @@ function CartSidebar() {
                                                                     </div>
 
                                                                     <div className="remove" style={{ cursor: "pointer" }} onClick={() => removeItemById(product._id)}>
-                                                                        <img src={del} alt="" />
+                                                                        <img src={del} alt="del" />
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -134,7 +135,7 @@ function CartSidebar() {
                                 </div>
                                 <div className="related-product">
                                     <h3>Related Products</h3>
-                                    <Slider {...settings}>
+                                    <Slider {...cartsettings}>
 
                                         {reletedProduct && reletedProduct.map((product) => {
 
@@ -155,7 +156,7 @@ function CartSidebar() {
                                                                 <p className='actualprice'>{product.variants[0]?.sizes[0]?.salePrice}</p>
                                                                 <span className='discount'>-40% Off</span>
                                                             </div>
-                                                            <Link to={`/${product?.category?.slug}/${product.slug}?id=${product._id}`} onClick={handleClose}>View Details</Link>
+                                                            <Link to={`/${product?.category?.slug}/${product.slug}?id=${product._id}`} onClick={closeCartSidebar}>View Details</Link>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -184,7 +185,7 @@ function CartSidebar() {
                             <BsCartX style={{ height: "50px", width: "50px" }} />
                             <h4 className='my-2'>Your cart is empty</h4>
                             <p>Looks like you haven’t added anything to your cart yet.</p>
-                            <Link to={`/bldc-ceiling-fan`} state={`6825a1ffc1fe22608784c784`} className="add-to-cart-btn mt-3" style={{ textDecoration: "none" }} onClick={handleClose}>Start Shopping</Link>
+                            <Link to={`/bldc-ceiling-fan`} state={`6825a1ffc1fe22608784c784`} className="add-to-cart-btn mt-3" style={{ textDecoration: "none" }} onClick={closeCartSidebar}>Start Shopping</Link>
                         </div>
                 }
             </Offcanvas>

@@ -14,7 +14,7 @@ import { PiBuildingOfficeFill } from "react-icons/pi";
 
 import { toast } from 'react-toastify';
 import Swal from 'sweetalert2';
-import AdminSIdebar from '../components/AdminSidebar';
+import AdminSidebar from '../components/AdminSIdebar';
 import Fan from '../assets/image/socalMedia/fan.png'
 
 
@@ -49,9 +49,6 @@ function MyOrder() {
         fetchData()
     }, [])
 
-    console.log(order);
-
-
     return (
         <div>
             <NavBar />
@@ -64,7 +61,7 @@ function MyOrder() {
                 <div className="container">
                     <div className="row">
                         <div className="col-lg-4">
-                            <AdminSIdebar />
+                            <AdminSidebar />
                         </div>
                         <div className="col-lg-8">
                             <div class="account-orders">
@@ -101,7 +98,7 @@ function MyOrder() {
                                                                 {order.totalAmount}.0 for 1 items
                                                             </td>
                                                             <td>
-                                                                <Link to={`/order-details/${order._id}`} className='add-to-cart-btn mb-0' style={{ background: "#000" }}>View </Link>
+                                                                <Link to={`/order-details/${order._id}`} className='add-to-cart-btn mb-0 px-3' >View </Link>
                                                             </td>
                                                         </tr>
                                                     )

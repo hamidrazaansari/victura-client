@@ -36,7 +36,7 @@ function CheckoutLogin() {
 
             if (response.data?.body?.token) {
                 const token = response.data.body.token;
-        navigate('/otp', { state: {token , mobile:`+${countrycode} ${mobile}` } });
+                    navigate('/otp', { state: {token , mobile:`${mobile}` , locations: location.pathname } });
             } else {
                 console.log('Token not found in response');
             }

@@ -29,6 +29,7 @@ function Otp() {
   const location = useLocation()
   const token = location?.state.token
   const mobile = location?.state.mobile
+  const locations = location?.state.locations
 
 
 
@@ -111,7 +112,13 @@ function Otp() {
       if (response.data) {
         toast.success(response.data?.message)
         localStorage.setItem('victuraAuthToken', victuraAuthToken);
-        navigate(-2)
+        if(locations === '/victura/checkout'){
+          navigate(-1)
+        }
+        else{
+          navigate(-2)
+
+        }
 
       } else {
         setError('Invalid OTP');
@@ -141,6 +148,9 @@ function Otp() {
 
     }
   };
+
+  console.log(locations);
+  
 
   return (
     <>

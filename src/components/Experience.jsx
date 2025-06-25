@@ -44,7 +44,7 @@ function Experience() {
                             <div className="fan-remote">
                                 <div className="remoteBtn">
                                     <div><h3>ON</h3> <img src={OffSvg} alt="power button" onClick={handleFanOn} /></div>
-                                    <div><h3>OF</h3> <img src={OnSvg} alt="power button" onClick={handleFanOFF} /></div>
+                                    <div><h3>OFF</h3> <img src={OnSvg} alt="power button" onClick={handleFanOFF} /></div>
                                 </div>
                                 {/* 
                             <div className="button_circle">

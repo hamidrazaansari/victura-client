@@ -94,12 +94,12 @@
     width: 100%;
 }
 .addBox {
-    width: 223px;
+    width: 45%;
     padding: 19px 25px;
     border: 2px solid #e9e9e9;
     font-family: 'inter';
-    font-size: 15px;
-    line-height: 23px;
+    font-size: 18px;
+    line-height: 29px;
     border-radius: 7px;
     margin: 10px 5px;
 }
@@ -132,17 +132,31 @@
     outline: none !important;
     box-shadow: none !important;
 }
-.dashboard .input-box .form-check-input:checked {
-    border-color: #000 !important;
-}
-.dashboard .input-box .form-check-input{
+.dashboard .input-box .form-check-input {
     height: 20px !important;
     width: 20px !important;
+    margin: 10px;
 }
+.dashboard .input-box .form-check-input:checked , .dashboard .input-box .form-check-input:focus {
+    border-color: #000 !important;
+    position: relative;
+}
+.dashboard .input-box .form-check-input:focus::after {
+    position: absolute;
+    content: '';
+    top: 3px;
+    left: 3px;
+    height: 12px;
+    width: 11px;
+    background-color: #000;
+    border-radius: 50%;
+}
+
 .dashboard .input-box svg{
         font-size: 30px;
         margin-left: 10px;
         margin-bottom: 5px;
+
 }
 /* sidebar design start  */
 .sidebar-account {
@@ -198,8 +212,7 @@
 
 
 .sidebar-account .my-account-nav .my-account-nav-item {
-    display: flex
-;
+    display: flex;
     gap: 12px;
     align-items: center;
     padding: 16px 20px;
@@ -270,11 +283,13 @@ form .cols {
     min-width: 700px;
 }
 .account-orders table thead, .account-orders table td, .account-orders table th {
-    padding: 15px 20px;
+    padding: 19px 20px;
+    font-family: 'inter';
 }
 .account-orders table thead tr {
     border: 1px solid #e9e9e9;
     background-color: #f7f7f7;
+    font-family: inter;
 }
 
 .account-orders table thead, .account-orders table td, .account-orders table th {
@@ -291,11 +306,11 @@ form .cols {
     padding: 15px 20px;
 }
 .account-orders table tbody td img {
-    height: 50px;
-    width: 50px;
+    height: 62px;
+    width: 72px;
     border-radius: 50%;
     background: #f1f1f1;
-    padding: 6px;
+    padding: 0px;
 }
 
 
@@ -328,18 +343,17 @@ form .cols {
     object-fit: contain;
 }
 .badge {
-    padding: 5px 10px;
-    font-weight: 500;
+    padding: 5px 10px !important;
+    font-weight: 500 !important;
     background-color: #e43131;
-    color: #fff;
-    border-radius: 4px;
-    font-size: 12px;
+    color: #fff !important;
+    border-radius: 4px !important;
+    font-size: 12px !important;
     min-width: 22px;
     min-height: 22px;
     text-transform: uppercase;
-    text-align: center;
+    text-align: center !important;
 }
-
 
 .tf-grid-layout {
     display: grid;
@@ -448,8 +462,7 @@ form .cols {
 }
 
 .widget-timeline .timeline>li .timeline-badge {
-    display: flex
-;
+    display: flex;
     justify-content: center;
     align-items: center;
     border-radius: 50%;
@@ -555,4 +568,62 @@ a{
   margin-top: 15px;
   font-weight: bold;
   color: #444;
+}
+.item-date{
+    font-family: inter;
+}
+.item-date .date{
+    font-size: 20px;
+    font-family: boldInter;
+}
+
+
+.nav-tabs .nav-item button:focus:not(:focus-visible) {
+    outline: none !important;
+}
+.nav-tabs .nav-link button:focus, .nav-tabs .nav-link button:hover , .nav-tabs .nav-link{
+    border: none !important;
+}
+.nav-tabs .active{
+    border: none !important;
+    border-bottom: 1px solid #3E496A !important;
+}
+
+.account-orders .wrap-account-order {
+    overflow-x: auto;
+}
+.account-orders table {
+    width: 100%;
+    min-width: 700px;
+}
+.newSummary  table  tr{
+    border-bottom: none !important;
+    border-style:none !important ;
+    border-color: transparent !important;
+}
+.account-orders table thead tr {
+    border: 1px solid #e9e9e9;
+    background-color: #f7f7f7;
+}
+.account-orders table tbody tr:not(:last-child) {
+    border-bottom: 1px solid #e9e9e9;
+}
+.order-box .account-orders table tbody td img {
+    height: 120px !important;
+    width: 120px !important;
+    border-radius: 0%;
+    margin-right: 15px !important;
+    box-shadow: 1px 1px 3px #ccc;
+
+}
+.order-box .account-orders table tbody td{
+    padding: 15px 20px !important;
+    font-family: inter;
+}
+.text-2{
+        font-family: 'inter';
+    padding: 5px 25px;
+    line-height: 25px;
+    color: #000;
+
 }

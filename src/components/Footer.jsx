@@ -15,6 +15,7 @@ import LinkedIn from '../assets/image/socalMedia/linkrdin.png';
 import axios from 'axios';
 import { BaseUrl } from '../utills/BaseUrl';
 import { toast , ToastContainer } from 'react-toastify';
+import Swal from 'sweetalert2';
 
 
 const quickLinks = [
@@ -39,8 +40,13 @@ function Footer() {
       const response  = await axios.post(`${BaseUrl}/newsletters` , {email})
 
       if(response.status === 200){
-        toast.success('You’ve successfully joined our newsletter..')
-      }
+            Swal.fire({
+                title: "Subscribed!",
+                text: "Thank you for subscribing to our newsletter. You'll now be the first to hear about our latest updates, exclusive offers, and exciting news!",
+                icon: "success",
+                confirmButtonText: "Close"
+            });   
+             }
 
       
     } catch (error) {
@@ -55,7 +61,6 @@ function Footer() {
       .then((res) => {
         const catData = res.data?.body || [];
         setCategories(catData);
-
       })
       .catch((err) => console.error("Categories fetch failed", err));
   }, []);

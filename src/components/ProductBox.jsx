@@ -11,7 +11,7 @@ function ProductBox({ product }) {
   const [selectedVariant, setSelectedVariant] = useState(null);
   const [selectedSize, setSelectedSize] = useState(null);
 
-  const { addData, isDuplicateItem } = useContext(CounterContext);
+  const { addData, isDuplicateItem , openCartSidebar } = useContext(CounterContext);
 
   // Set default variant and size
   useEffect(() => {
@@ -51,9 +51,9 @@ const handeAddToCart = () => {
 
   const added = addData(cartItem);
 
-  // if (!added) {
-  //   navigate('/cart'); // redirect if already in cart
-  // }
+  if (added) {
+    openCartSidebar()
+  }
 };
 
 
@@ -82,6 +82,7 @@ const handeAddToCart = () => {
                 {product?.variants?.map((variant, index) => (
                   <div
                     key={index}
+                    title={variant.color?.name}
                     className={`color ${selectedVariant?._id === variant._id ? 'active' : ''}`}
                     style={{
                       background: !variant.color?.anotherCode
@@ -128,7 +129,7 @@ const handeAddToCart = () => {
           </div>
         </div>
 
-        <button className='add-to-cart-btn' onClick={handeAddToCart}>
+        <button className='add-to-cart-btn' onClick={!isDuplicateItem[product._id] ?  handeAddToCart : openCartSidebar}>
           {!isDuplicateItem[product._id] ? 'ADD TO CART' : 'GO TO CART'}
         </button>
       </div>

@@ -356,9 +356,11 @@
     height: 480px !important;
 }
 .Features p{
+    display: none;
+}
+.Features li{
     font-family: 'inter';
     color: #000;
-    font-weight: 600;
     padding: 10px;
     padding-left: 40px;
     font-size: 15px;
@@ -366,7 +368,7 @@
     border-bottom: 1px solid #3e496a6f;
     position: relative;
 }
-.Features p::before {
+.Features li::before {
     content: '';
     position: absolute;
     top: 13px;

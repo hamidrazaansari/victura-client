@@ -3,6 +3,7 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import { Link } from 'react-router-dom';
 import { IoIosArrowDown, IoIosArrowForward } from "react-icons/io";
 import axios from 'axios';
+import Fan from '../assets/image/product/bldcfan.png'
 import { BaseUrl, FileUrl } from '../utills/BaseUrl';
 
 function HoverDropdown({ handleNavClose }) {
@@ -12,6 +13,7 @@ function HoverDropdown({ handleNavClose }) {
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [activeSlug, setActiveSlug] = useState('bldc-ceiling-fan');
+
 
   // Fetch categories
   useEffect(() => {
@@ -98,7 +100,7 @@ function HoverDropdown({ handleNavClose }) {
               {/* Category Image */}
               <div className="col-3">
                 <div className="fan-box">
-                  <img src={`${FileUrl}/${catActiveImage}`} alt="fan" className="img-fluid" />
+                  <img src={Fan} alt="fan" className="img-fluid" />
                 </div>
               </div>
 

@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import NavBar from '../components/NavBar'
 import Footer from '../components/Footer'
-import Tab from 'react-bootstrap/Tab';
-import Tabs from 'react-bootstrap/Tabs';
 import '../assets/css/admin.css'
 import Order from '../components/Order';
 import Address from '../components/Address';
-import { BaseUrl } from '../utills/BaseUrl';
+import { BaseUrl, FileUrl } from '../utills/BaseUrl';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { FaHome } from "react-icons/fa";
 import { PiBuildingOfficeFill } from "react-icons/pi";
 
@@ -16,10 +14,169 @@ import { toast } from 'react-toastify';
 import Swal from 'sweetalert2';
 import AdminSIdebar from '../components/AdminSIdebar';
 import Fan from '../assets/image/socalMedia/fan.png'
+import moment from 'moment/moment';
+
+import Tab from 'react-bootstrap/Tab';
+import Tabs from 'react-bootstrap/Tabs';
+
+function TabComponent({ order }) {
+    return (
+        <Tabs
+            defaultActiveKey="profile"
+            id="uncontrolled-tab-example"
+            className="mb-3 mt-5"
+        >
+            <Tab eventKey="home" title="Order History">
+                <div className="widget-content-inner active">
+                    <div className="widget-timeline">
+                        <ul className="timeline">
+                            <li>
+                                <div className="timeline-badge success"></div>
+                                <div className="timeline-box">
+                                    <a className="timeline-panel" href="javascript:void(0);">
+                                        <div className="text-2 fw-6">Product Shipped</div>
+                                        <span>10/03/2025 4:30pm</span>
+                                    </a>
+                                    <p><strong>Courier Service : </strong>FedEx World Service Center</p>
+                                    <p><strong>Estimated Delivery Date : </strong>12/05/2025</p>
+                                </div>
+                            </li>
+                            <li>
+                                <div className="timeline-badge success"></div>
+                                <div className="timeline-box">
+                                    <a className="timeline-panel" href="javascript:void(0);">
+                                        <div className="text-2 fw-6">Product Shipped</div>
+                                        <span>10/03/2025 4:30pm</span>
+                                    </a>
+                                    <p><strong>Courier Service : </strong>FedEx World Service Center</p>
+                                    <p><strong>Estimated Delivery Date : </strong>12/05/2025</p>
+                                </div>
+                            </li>
+                            <li>
+                                <div className="timeline-badge"></div>
+                                <div className="timeline-box">
+                                    <a className="timeline-panel" href="javascript:void(0);">
+                                        <div className="text-2 fw-6">Product Packaging</div>
+                                        <span>10/04/2025 4:34pm</span>
+                                    </a>
+                                </div>
+                            </li>
+                            <li>
+                                <div className="timeline-badge"></div>
+                                <div className="timeline-box">
+                                    <a className="timeline-panel" href="javascript:void(0);">
+                                        <div className="text-2 fw-6">Order Placed</div>
+                                        <span>10/04/2025 4:34pm</span>
+                                    </a>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </Tab>
+            <Tab eventKey="profile" title="Ordered Items">
+                <div className="order-box">
+                    <div className="account-orders">
+                        <div className="wrap-account-order">
+                            <table className="table" style={{ width: "100%", borderCollapse: "collapse" }}>
+                                <thead>
+                                    <tr style={{ fontWeight: "bold", textAlign: "left" }}>
+                                        <th className="text-center" style={{ verticalAlign: "top" }}>Product</th>
+                                        <th style={{ verticalAlign: "top" }}>SKU</th>
+                                        <th style={{ verticalAlign: "top" }}>Price</th>
+                                        <th style={{ verticalAlign: "top" }}>Watt</th>
+                                        <th style={{ verticalAlign: "top" }}>Qty</th>
+                                        <th style={{ verticalAlign: "top" }}>Subtotal</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {order.products && order.products?.map((product) => {
+                                        return (
+                                            <tr>
+                                                <td style={{ verticalAlign: "top", padding: "0 15px" }} key={product._id}>
+                                                    <div style={{ display: "flex", alignItems: "flex-start" }}>
+
+                                                        <img
+                                                            src={`${FileUrl}/${product?.images[0]}`}
+                                                            alt="product"
+                                                            className='img-fluid'
+                                                            style={{ width: "100px", marginRight: "10px" }}
+                                                        />
+                                                        <div>
+                                                            <div className='mt-4'>{product?.name}</div>
+                                                            <div style={{ color: "#666", fontSize: "12px" }}>
+                                                                Color: White,<br /> Size: {product.size?.title}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td style={{ verticalAlign: "center" }}>{product?.product?.sku}</td>
+                                                <td style={{ verticalAlign: "center" }}>₹{product.mrp}.18</td>
+                                                <td style={{ verticalAlign: "center" }}>{product?.product?.watt}w</td>
+                                                <td style={{ verticalAlign: "center" }}>{product.qty}</td>
+                                                <td style={{ verticalAlign: "center" }}>₹{product.salePrice}.00</td>
+                                            </tr>
+                                        )
+                                    })}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+            </Tab>
+            <Tab eventKey="contact" title="Shipping Address" >
+                <div class="text-2">
+										{order?.shippingAddress?.name}<br/>
+										{order?.shippingAddress?.line1}, 
+										{order?.shippingAddress?.line2}
+										{order?.shippingAddress?.line3}
+										{order?.shippingAddress?.city}<br/>
+										{order?.shippingAddress?.state}- {order?.shippingAddress?.zipcode}<br/>	
+										{'hamid.estaglobal@gmail.com'}<br/>
+										{order.shippingAddress?.contact}<br/>
+									</div>
+            </Tab>
+        </Tabs>
+    );
+}
+
 
 
 function OrderDetails() {
-  
+
+    const [order, setOrder] = useState([])
+    const [loading, setLoading] = useState(false)
+    const { id } = useParams()
+
+    const token = localStorage.getItem(`victuraAuthToken`)
+    useEffect(() => {
+        async function fetchData() {
+            try {
+                setLoading(true)
+                const response = await axios.get(`${BaseUrl}/orders/userOrders/${id}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    }
+                })
+                console.log(response);
+
+                if (response.status === 200) {
+                    setOrder(response.data.body)
+                }
+            } catch (error) {
+                console.log(error);
+
+            }
+            finally {
+                setLoading(false)
+            }
+        }
+        fetchData()
+    }, [])
+
+    console.log(order);
+
     return (
         <div>
             <NavBar />
@@ -35,108 +192,46 @@ function OrderDetails() {
                             <AdminSIdebar />
                         </div>
                         <div className="col-lg-8">
-                            <div class="my-account-content">
-                                <div class="account-order-details">
-                                    <div class="wd-form-order">
-                                        <div class="order-head">
-                                            <figure class="img-product">
-                                                <img src={Fan}  alt="product"/>
-                                            </figure>
-                                            <div class="content">
-                                                <div class="badge">In Progress</div>
-                                                <h6 class="mt-8 fw-5">Order #17493</h6>
+                            <div className="my-account-content">
+                                <div className="account-order-details">
+                                    <div className="wd-form-order">
+                                        <div className="order-head">
+                                            <div className="content">
+                                                <div className="badge">In Progress</div>
+                                                <h6 className="mt-8 fw-5 mb-0" style={{ fontSize: "23px", fontFamily: "boldInter" }}>Order #17493</h6>
                                             </div>
                                         </div>
-                                        <div class="tf-grid-layout md-col-2 gap-15">
-                                            <div class="item">
-                                                <div class="text-2 text_black-2">Item</div>
-                                                <div class="text-2 mt_4 fw-6">Fan</div>
+                                        <div className="tf-grid-layout md-col-2 gap-15">
+                                            <div className="item-date">
+                                                <div className="text-2 text_black">Ordered At</div>
+                                                <div className="date">{moment(order.updatedAt).format("DD-MM-YYYY HH:mm")}</div>
                                             </div>
-                                            <div class="item">
-                                                <div class="text-2 text_black-2">Courier</div>
-                                                <div class="text-2 mt_4 fw-6">Induction ciling fan</div>
-                                            </div>
-                                            <div class="item">
-                                                <div class="text-2 text_black-2">Start Time</div>
-                                                <div class="text-2 mt_4 fw-6">13 April 2025, 01:20</div>
-                                            </div>
-                                            <div class="item">
-                                                <div class="text-2 text_black-2">Address</div>
-                                                <div class="text-2 mt_4 fw-6">There are many variations of passages of Lorem Ipsum available, but the majority ...</div>
-                                            </div>
+
                                         </div>
-                                        <div class="widget-tabs style-3 widget-order-tab">
-                                            <ul class="widget-menu-tab">
-                                                <li class="item-title active">
-                                                    <span class="inner">Order History</span>
-                                                </li>
 
+                                        <TabComponent order={order} />
 
-                                                <li class="item-title">
-                                                    <span class="inner">Receiver</span>
-                                                </li>
-                                            </ul>
-                                            <div class="widget-content-tab">
-                                                <div class="widget-content-inner active">
-                                                    <div class="widget-timeline">
-                                                        <ul class="timeline">
-                                                            <li>
-                                                                <div class="timeline-badge success"></div>
-                                                                <div class="timeline-box">
-                                                                    <a class="timeline-panel" href="javascript:void(0);">
-                                                                        <div class="text-2 fw-6">Product Shipped</div>
-                                                                        <span>10/03/2025 4:30pm</span>
-                                                                    </a>
-                                                                    <p><strong>Courier Service : </strong>FedEx World Service Center</p>
-                                                                    <p><strong>Estimated Delivery Date : </strong>12/05/2025</p>
-                                                                </div>
-                                                            </li>
-                                                            <li>
-                                                                <div class="timeline-badge success"></div>
-                                                                <div class="timeline-box">
-                                                                    <a class="timeline-panel" href="javascript:void(0);">
-                                                                        <div class="text-2 fw-6">Product Shipped</div>
-                                                                        <span>10/03/2025 4:30pm</span>
-                                                                    </a>
-                                                                    <p><strong>Courier Service : </strong>FedEx World Service Center</p>
-                                                                    <p><strong>Estimated Delivery Date : </strong>12/05/2025</p>
-                                                                </div>
-                                                            </li>
-                                                            <li>
-                                                                <div class="timeline-badge"></div>
-                                                                <div class="timeline-box">
-                                                                    <a class="timeline-panel" href="javascript:void(0);">
-                                                                        <div class="text-2 fw-6">Product Packaging</div>
-                                                                        <span>10/04/2025 4:34pm</span>
-                                                                    </a>
-                                                                </div>
-                                                            </li>
-                                                            <li>
-                                                                <div class="timeline-badge"></div>
-                                                                <div class="timeline-box">
-                                                                    <a class="timeline-panel" href="javascript:void(0);">
-                                                                        <div class="text-2 fw-6">Order Placed</div>
-                                                                        <span>10/04/2025 4:34pm</span>
-                                                                    </a>
-                                                                </div>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
+                                        <div className="order-summary newSummary mt-4">
+                                            <table className="table">
+                                                <tbody>
+                                                    {/* <tr>
+                                                    <th className="text-end">Total:</th>
+                                                    <td className="text-end">₹{order.totalAmount}.36</td>
+                                                </tr> */}
+                                                    {/* <tr>
+                                                        <th className="text-end">GST (18%):</th>
 
-
-                                                <div class="widget-content-inner">
-                                                    <p class="text-2 text-success">Thank you Your order has been received</p>
-                                                    <ul class="mt_20">
-                                                        <li>Order Number : <span class="fw-7">#17493</span></li>
-                                                        <li>Date : <span class="fw-7"> 17/07/2024, 02:34pm</span></li>
-                                                        <li>Total : <span class="fw-7">$18.95</span></li>
-                                                        <li>Payment Methods : <span class="fw-7">Cash on Delivery</span></li>
-
-                                                    </ul>
-                                                </div>
-
-                                            </div>
+                                                        <td className="text-end">₹1,043.64</td>
+                                                    </tr> */}
+                                                    <tr>
+                                                        <th className="text-end">Grand Total:</th>
+                                                        <td className="text-end"><strong>₹{order.totalAmount}.00</strong></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th className="text-end">Payment Method:</th>
+                                                        <td className="text-end"><strong>COD</strong></td>
+                                                    </tr>
+                                                </tbody></table>
                                         </div>
                                     </div>
                                 </div>

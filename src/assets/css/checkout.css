@@ -15,7 +15,7 @@
     font-size: 15px;
     line-height: 24px;
     border-radius: 3px;
-    margin: 5px;
+    margin: 10px 5px;
     position: relative;
 }
 .checkout .addBox p{
@@ -42,7 +42,8 @@
 
 }
 .checkout .dashboard h3{
-    display: none;
+    margin-bottom: 0 ;
+    font-size: 17px;
 }
 .checkout .productbox {
     padding: 16px 0;
@@ -228,8 +229,8 @@
 }
 .checkout .productbox .saleprice {
     position: absolute;
-    top: 3px;
-    right: -22px;
+    top: 29px;
+    left: 148px;
     font-family: 'inter';
     font-size: 14px;
 }
@@ -280,4 +281,7 @@
     letter-spacing: 1px;
     font-weight: 700;
     color: #00000099;
+}
+.addBox.active{
+    border: 2px solid #000;
 }

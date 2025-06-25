@@ -37,7 +37,7 @@ function App() {
             <Route path='/account' element={<Admin />} />
             <Route path='/address' element={<MyAddress />}  />
             <Route path='/order' element={<MyOrder />}  />
-            <Route path='/order-details' element={<OrderDetails />}  />
+            <Route path='/order-details/:id' element={<OrderDetails />}  />
             <Route path='/contact-us' element={<ContactUsPage />} />
             <Route path='/blog' element={<BlogListing />} />
             <Route path='/blog-details' element={<BlogDetails />} />
