@@ -176,15 +176,45 @@ function Checkout() {
 
     }
 
+          // ✅ Core function: used in both submit & placeOrder
+      const submitAddressData = async () => {
+        try {
+          const token = localStorage.getItem('victuraAuthToken');
+          const url = editAddress
+            ? `${BaseUrl}/userAddress/${editAddress._id}`
+            : `${BaseUrl}/userAddress`;
+    
+          const method = editAddress ? 'put' : 'post';
+    
+          await axios[method](url, formData, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            }
+          });
+    
+          onSaveData(formData);
+          setFormData(initialForm);
+          setCurrentState('');
+          if (editAddress) setIsEditing(false);
+    
+          return true;
+        } catch (error) {
+          if (error.response?.data?.errors) {
+            const newErrors = {};
+            Object.keys(error.response.data.errors).forEach(key => {
+              newErrors[key] = error.response.data.errors[key];
+            });
+            setErrors(newErrors);
+          } else {
+            console.error('Error saving address:', error);
+            toast.error('Failed to save address');
+          }
+    
+          return false;
+        }
+      };
 
     const handlePlaceOrder = async () => {
-        if (edit && submitAddressRef.current) {
-            const addressSaved = await submitAddressRef.current();
-            if (!addressSaved) {
-                toast.error("Failed to save address");
-                return;
-            }
-        }
 
         try {
             const response = await axios.post(`${BaseUrl}/orders`, orderData, {
@@ -235,6 +265,9 @@ function Checkout() {
         setCuponCode('');
         setCuponsError('')
     };
+
+
+
 
     return (
         <>
@@ -303,7 +336,6 @@ function Checkout() {
                                     editAddress={editAddress}
                                     isEditing={isEditing}
                                     setIsEditing={setEdit}
-                                    triggerSubmit={(submitFn) => (submitAddressRef.current = submitFn)}
                                 />
                             </div>
                         )}

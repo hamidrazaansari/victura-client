@@ -75,43 +75,7 @@ function CheckoutAddress({ onSaveData, editAddress, setIsEditing, triggerSubmit 
     setErrors(prev => ({ ...prev, [name]: error }));
   };
 
-  // ✅ Core function: used in both submit & placeOrder
-  const submitAddressData = async () => {
-    try {
-      const token = localStorage.getItem('victuraAuthToken');
-      const url = editAddress
-        ? `${BaseUrl}/userAddress/${editAddress._id}`
-        : `${BaseUrl}/userAddress`;
 
-      const method = editAddress ? 'put' : 'post';
-
-      await axios[method](url, formData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        }
-      });
-
-      onSaveData(formData);
-      setFormData(initialForm);
-      setCurrentState('');
-      if (editAddress) setIsEditing(false);
-
-      return true;
-    } catch (error) {
-      if (error.response?.data?.errors) {
-        const newErrors = {};
-        Object.keys(error.response.data.errors).forEach(key => {
-          newErrors[key] = error.response.data.errors[key];
-        });
-        setErrors(newErrors);
-      } else {
-        console.error('Error saving address:', error);
-        toast.error('Failed to save address');
-      }
-
-      return false;
-    }
-  };
 
   return (
     <div className='dashboard'>
