@@ -27,6 +27,8 @@ function Checkout() {
     const [appliedCouponCodes, setAppliedCouponCodes] = useState('');
     const [cuponsError, setCuponsError] = useState('')
 
+    const submitAddressRef = useRef(null);
+
 
 
     const [orderData, setOrderData] = useState({
@@ -45,10 +47,6 @@ function Checkout() {
     const cartdata = location.state?.data || [];
     const totalPrice = location.state.totalMrp || 0;
     const totalDiscount = location.state.totalDiscount || 0;
-
-    const childSubmitRef = useRef(null); // useRef to store the child's submit function
-
-
 
 
     const fetchData = async () => {
@@ -178,19 +176,14 @@ function Checkout() {
 
     }
 
-    const handleAddSubmit = async () => {
-        if (childSubmitRef.current) {
-            return await childSubmitRef.current(); // ✅ await the child's promise
-        }
-        return true; // fallback
-    };
 
     const handlePlaceOrder = async () => {
-        const addressSaved = await handleAddSubmit();
-
-        if (!addressSaved) {
-            toast.error("Failed to save address");
-            return;
+        if (edit && submitAddressRef.current) {
+            const addressSaved = await submitAddressRef.current();
+            if (!addressSaved) {
+                toast.error("Failed to save address");
+                return;
+            }
         }
 
         try {
@@ -269,15 +262,8 @@ function Checkout() {
                                                 name="addressType"
                                             />
                                         </div> */}
-                                    <p>
-                                        {add.name},
-                                        {add.address},
-                                        {add.city},
-                                        {add.state},
-                                        {add.country},
-                                        {add.mobile},
-                                        {add.pincode}
-                                    </p>
+                                        <p>{add.name} <br /> {add.email} <br />  {add.line1}  {add.line2} {add.line3} {add.locality}  {add.landmark} {add.city}   {add.state}    {add.contact} <br /> {add.zipcode}</p>
+
                                     <button className='edit-btn' onClick={() => handleEditAddress(add)}>Edit</button>
                                     {/* <div className="d-flex">
                                                 <button onClick={() => handleDelete(add._id)}>Delete</button>
@@ -317,7 +303,7 @@ function Checkout() {
                                     editAddress={editAddress}
                                     isEditing={isEditing}
                                     setIsEditing={setEdit}
-                                    triggerSubmit={(submitFn) => (childSubmitRef.current = submitFn)}
+                                    triggerSubmit={(submitFn) => (submitAddressRef.current = submitFn)}
                                 />
                             </div>
                         )}

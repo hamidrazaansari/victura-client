@@ -94,14 +94,14 @@
     width: 100%;
 }
 .addBox {
-    width: 45%;
+    width: 47%;
     padding: 19px 25px;
     border: 2px solid #e9e9e9;
     font-family: 'inter';
     font-size: 18px;
     line-height: 29px;
-    border-radius: 7px;
-    margin: 10px 5px;
+    border-radius: 15px;
+    margin: 10px 10px;
 }
 .addBox span{
         font-size: 20px;
@@ -163,7 +163,10 @@
     background-color: #f7f7f7;
     border-radius: 20px;
     padding: 40px 32px;
+    position: sticky;
+    top: 120px;
 }
+
 .sidebar-account .account-avatar {
     margin-bottom: 40px;
     display: flex

@@ -12,8 +12,7 @@ import { PiBuildingOfficeFill } from "react-icons/pi";
 
 import { toast } from 'react-toastify';
 import Swal from 'sweetalert2';
-import AdminSIdebar from '../components/AdminSIdebar';
-
+import AdminSidebar from '../components/AdminSidebar';
 
 function MyAddress() {
 
@@ -105,7 +104,7 @@ function MyAddress() {
                 <div className="container">
                     <div className="row">
                         <div className="col-lg-4">
-                            <AdminSIdebar />
+                            <AdminSidebar />
                         </div>
                         <div className="col-lg-8">
                             <>
@@ -126,7 +125,7 @@ function MyAddress() {
                                             return (
                                                 <div className="addBox" key={ind}>
                                                     <span>{add.addressType === "HOME" ? <FaHome /> : <PiBuildingOfficeFill />}</span>
-                                                    <p>{add.name}  {add.address}    {add.city}   {add.state}  {add?.country}  {add.mobile} <br /> {add.pincode}</p>
+                                                    <p>{add.name} <br /> {add.email} <br />  {add.line1}  {add.line2} {add.line3} {add.locality}  {add.landmark} {add.city}   {add.state}    {add.contact} <br /> {add.zipcode}</p>
                                                        
                                                         
                                                         
@@ -160,25 +159,3 @@ function MyAddress() {
 
 export default MyAddress
 
-
-{/* <div className="container" style={{ position: "relative" }}>
-                               
-                                    <Tabs
-                                        defaultActiveKey="Dashboard"
-                                        id="uncontrolled-tab-example"
-                                        className="mb-3"
-                                    >
-                                        <Tab eventKey="Dashboard" title="Dashboard">
-                                        </Tab>
-                                        <Tab eventKey="Orders" title={`Orders (0)`}>
-                                            <Order />
-                                        </Tab>
-                                        <Tab eventKey="home" title={`Address (${data.length})`}>
-                                          
-                                        </Tab>
-                                        {/* <Tab eventKey="Account" title="Account Details">
-                            <AccountDetails />
-                        </Tab> */}
-//     </Tabs>
-
-// </div>

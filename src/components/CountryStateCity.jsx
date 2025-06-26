@@ -18,7 +18,7 @@ export default function CountryStateCity({ currentState, setCurrentState , error
                     defaultValue={currentState}
                     placeHolder="State*"
                 />
-                {errors.state && <small className="text-danger" style={{left:"55px" , bottom:"-17px"}}>{errors.state}</small>}
+                {errors.state && <small className="text-danger" style={{left:"0px" , bottom:"-20px"}}>{errors.state}</small>}
             </div>
 
         </div>

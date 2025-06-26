@@ -234,3 +234,11 @@
  .otp-container input:focus{
     border-color: #000 !important;
  }
+ .login-box .input-field{
+    width: 100% !important;
+ }
+ .login-box  .input-field .form-control{
+    width: 100%;
+    margin-bottom: 10px !important;
+    height: 48px;
+ }

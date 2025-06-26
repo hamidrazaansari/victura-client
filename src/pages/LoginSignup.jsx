@@ -45,10 +45,12 @@ function LoginSignup() {
 
       if (response.data?.body?.token) {
         const token = response.data.body.token;
-          navigate('/otp', { state: {token , mobile:`${mobile}` , locations: location.pathname } });
+          navigate('/otp', { state: {token , mobile:`${mobile}` , locations: location.pathname  ,username: response.data?.body} });
       } else {
-        console.log('Token not found in response');
+        console.log('Token not found in response')
       }
+
+      
     } catch (error) {
       console.error('Registration error:', error);
       setError(error.response?.data?.errors)
@@ -107,12 +109,6 @@ function LoginSignup() {
                 <a className='fw-bold text-dark' style={{textDecoration:"underline"}} href="/victura/privacy"> Privacy Policy</a> and <a className='fw-bold text-dark' href="/victura/term-and-condition">Terms & Conditions.</a></p>
             </label>
           </div>
-
-
-
-
-
-
 
         </div>
       </div>

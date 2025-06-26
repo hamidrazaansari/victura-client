@@ -18,10 +18,11 @@ function Otp() {
   // const [otp, setOtp] = useState('');
   const [otps, setOtp] = useState(["", "", "", ""]);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState({});
   const [show, setShow] = useState(false);
   const [timer, setTimer] = useState(30);
   const [resendDisabled, setResendDisabled] = useState(true);
+  const [name, setName] = useState('')
 
   const inputRefs = useRef([]);
   const navigate = useNavigate()
@@ -30,11 +31,7 @@ function Otp() {
   const token = location?.state.token
   const mobile = location?.state.mobile
   const locations = location?.state.locations
-
-
-
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const username = location?.state.username
 
   useEffect(() => {
     let countdown;
@@ -52,10 +49,6 @@ function Otp() {
     return () => clearInterval(countdown);
   }, [timer, resendDisabled]);
 
-  const handleOtpChange = (e) => {
-    const numericValue = e.target.value.replace(/\D/g, '');
-    setOtp(numericValue);
-  };
 
 
 
@@ -96,21 +89,17 @@ function Otp() {
     setError('');
 
     try {
-      setLoading(true);
+      const payload = !username.name ? { otp, name } : { otp };
 
-      const response = await axios.post(`${BaseUrl}/users/verifyAccount`, { otp }, {
+      const response = await axios.post(`${BaseUrl}/users/verifyAccount`, payload, {
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${token}`, // if needed
         }
       });
 
-      const name = response?.data?.body?.name;
-      if (!name) handleShow();
-
-      const victuraAuthToken = response?.data?.body?.token
+         const victuraAuthToken = response?.data?.body?.token
 
       if (response.data) {
-        toast.success(response.data?.message)
         localStorage.setItem('victuraAuthToken', victuraAuthToken);
         if(locations === '/victura/checkout'){
           navigate(-1)
@@ -119,15 +108,24 @@ function Otp() {
           navigate(-2)
 
         }
-
-      } else {
-        setError('Invalid OTP');
       }
+
+      // handle success
     } catch (error) {
-      console.error('OTP Verification Error:', error);
-      toast.error(error.response?.data?.message)
-      setError(error.response?.data.errors);
-    } finally {
+      if (error.response?.data?.errors) {
+        // Backend sent field-level validation errors
+        setError(error.response.data.errors);
+      } else if (error.response?.data?.message) {
+        // Backend sent a general message
+        setError({ general: error.response.data.message });
+      } else {
+        // Network error or something unexpected
+        setError({ general: 'Something went wrong. Please try again.' });
+      }
+
+      console.error('Verification error:', error);
+    }
+    finally {
       setLoading(false);
     }
   };
@@ -144,13 +142,13 @@ function Otp() {
       console.log('OTP Resent');
     } catch (err) {
       console.error('Error resending OTP:', err);
-      setError(error.response?.data.errors);
+      setError({resendOtp:'Something went wrong. Please Log in again.'});
 
     }
   };
 
-  console.log(locations);
-  
+
+
 
   return (
     <>
@@ -176,15 +174,6 @@ function Otp() {
               <BiSolidPencil />
             </div>
             <div className="input-box mt-4">
-              {/* <input
-                type="text"
-                className='form-control otpbox'
-                placeholder='Enter OTP*'
-                value={otp}
-                onChange={handleOtpChange}
-                maxLength={6}
-              /> */}
-
               <div className='otp-container'>
                 {otps.map((value, index) => (
                   <input
@@ -199,7 +188,23 @@ function Otp() {
                   />
                 ))}
               </div>
-              {error.otp ? <small>{error.otp}</small> : ''}
+            </div>
+
+
+            <div className="input-field">
+              {
+                !username?.name ?
+                  <input
+                    type="text"
+                    className='form-control'
+                    placeholder='Enter Name'
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                  />
+                  :
+                  ''
+              }
+
             </div>
 
 
@@ -210,6 +215,11 @@ function Otp() {
             >
               {loading ? 'Verifying...' : 'Verify OTP'} <img src={Arrow} alt="Arrow" />
             </button>
+
+              {error.general && <div className="text-danger">{error.general}</div>}
+              {error.otp && <div className="text-danger">{error.otp}</div>}
+              {error.nameinput && <div className="text-danger">{error.nameinput}</div>}
+              {error.resendOtp && <div className="text-danger">{error.resendOtp}</div>}
 
             <p className='text-center mb-1 mt-3'>
               Didn`t Receive the OTP? <span>{resendDisabled ? `00:${timer < 10 ? `0${timer}` : timer}` : '00:00'}</span>
@@ -238,7 +248,6 @@ function Otp() {
         </div>
 
         <Footer />
-        <UpdateDataModal show={show} handleClose={handleClose} />
       </div>
     </>
 

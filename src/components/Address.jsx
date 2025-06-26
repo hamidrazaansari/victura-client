@@ -11,18 +11,22 @@ import { PiBuildingOfficeFill } from "react-icons/pi";
 const addressTypes = [
   { value: 'HOME', icon: <FaHome />, label: 'Home' },
   { value: 'OFFICE', icon: <PiBuildingOfficeFill />, label: 'Office' },
+  { value: 'OTHER', icon: <PiBuildingOfficeFill />, label: 'Other' },
 ];
 
-function Address({ editAddress, isEditing, onSave, setIsEditing, onSaveData }) {
+function Address({ editAddress, isEditing, setIsEditing, onSaveData }) {
   const initialForm = {
     name: '',
     email: '',
-    country: '',
     state: '',
     city: '',
-    address: '',
-    mobile: '',
-    pincode: '',
+    line1: '',
+    line2: '',
+    line3: '',
+    locality: '',
+    landmark: '',
+    contact: '',
+    zipcode: '',
     addressType: ''
   };
 
@@ -30,99 +34,81 @@ function Address({ editAddress, isEditing, onSave, setIsEditing, onSaveData }) {
   const [errors, setErrors] = useState({
     name: '',
     email: '',
-    country: '',
     state: '',
     city: '',
-    address: '',
-    mobile: '',
-    pincode: '',
+    line1: '',
+    line2: '',
+    line3: '',
+    locality: '',
+    landmark: '',
+    contact: '',
+    zipcode: '',
     addressType: ''
   });
-  const [country, setCountry] = useState('');
   const [currentState, setCurrentState] = useState('');
-  const [currentCity, setCurrentCity] = useState('');
-  const [existingAddresses, setExistingAddresses] = useState([]);
-
-
-  useEffect(() => {
-    const fetchAddresses = async () => {
-      const token = localStorage.getItem('victuraAuthToken');
-      try {
-        const res = await axios.get(`${BaseUrl}/userAddress`, {
-          headers: { Authorization: `Bearer ${token}` }
-        });
-        setExistingAddresses(res.data?.body || []);
-      } catch (err) {
-        console.error("Error fetching addresses:", err);
-      }
-    };
-    fetchAddresses();
-  }, []);
-
 
   useEffect(() => {
     if (editAddress) {
       setFormData(editAddress);
-      const countryObj = { name: editAddress.country };
-      const stateObj = { name: editAddress.state };
-      const cityObj = { name: editAddress.city };
-      setCountry(countryObj);
-      setCurrentState(stateObj);
-      setCurrentCity(cityObj);
+      setCurrentState({ name: editAddress.state });
     }
   }, [editAddress]);
 
-  // Sync location values to formData
   useEffect(() => {
     setFormData(prev => ({
       ...prev,
-      country: country?.name,
       state: currentState?.name,
-      city: currentCity?.name
     }));
-  }, [country, currentState, currentCity, formData.address]);
+  }, [currentState]);
+
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    let updatedValue = value;
     let error = '';
 
-    if (name === 'name' && !/^[a-zA-Z\s]*$/.test(value)) {
-      error = 'Name should only contain alphabets';
-    } else if ((name === 'pincode' || name === 'mobile') && !/^\d*$/.test(value)) {
-      error = `${name.charAt(0).toUpperCase() + name.slice(1)} should only contain numbers`;
+    if (name === 'name' || name === 'city') {
+      if (!/^[a-zA-Z\s]*$/.test(value)) {
+        error = `${name} must only contain letters.`;
+      }
+      updatedValue = value.replace(/[^a-zA-Z\s]/g, '');
+    } else if (name === 'zipcode' || name === 'contact') {
+      if (!/^\d*$/.test(value)) {
+        error = `${name} must only contain numbers.`;
+      }
+      updatedValue = value.replace(/\D/g, '');
     }
 
-    if (name === 'name' && !/^[a-zA-Z\s]*$/.test(value)) {
-      value = value.replace(/[^a-zA-Z\s]/g, '');
-    } else if ((name === 'pincode' || name === 'mobile') && !/^\d*$/.test(value)) {
-      value = value.replace(/\D/g, '');
-    }
-
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData(prev => ({ ...prev, [name]: updatedValue }));
     setErrors(prev => ({ ...prev, [name]: error }));
   };
-  const token = localStorage.getItem('victuraAuthToken');
 
-
+  // ✅ Core function: used in both submit & placeOrder
   const handleSubmit = async () => {
     try {
       const token = localStorage.getItem('victuraAuthToken');
-      await axios.post(`${BaseUrl}/userAddress`, formData, {
+      const url = editAddress
+        ? `${BaseUrl}/userAddress/${editAddress._id}`
+        : `${BaseUrl}/userAddress`;
+
+      const method = editAddress ? 'put' : 'post';
+
+      await axios[method](url, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
         }
       });
 
-      toast.success('Address saved successfully!');
-      setFormData(initialForm);
-      setCountry('');
-      setCurrentState('');
-      setCurrentCity('');
-      onSave();
       onSaveData(formData);
+      setFormData(initialForm);
+      setCurrentState('');
+      if (editAddress) setIsEditing(false);
+      window.location.reload()
 
+      return true;
     } catch (error) {
-      if (error.response && error.response.data && error.response.data.errors) {
+      if (error.response?.data?.errors) {
         const newErrors = {};
         Object.keys(error.response.data.errors).forEach(key => {
           newErrors[key] = error.response.data.errors[key];
@@ -130,58 +116,65 @@ function Address({ editAddress, isEditing, onSave, setIsEditing, onSaveData }) {
         setErrors(newErrors);
       } else {
         console.error('Error saving address:', error);
-        toast.error('Failed to save address');
       }
+
+      return false;
     }
   };
 
-  const handleEditData = async () => {
-    try {
-      const token = localStorage.getItem('victuraAuthToken');
-      const addressData = {
-        name: formData.name,
-        email: formData.email,
-        country: formData.country,
-        state: formData.state,
-        city: formData.city,
-        address: formData.address,
-        mobile: formData.mobile,
-        pincode: formData.pincode,
-        addressType: formData.addressType,
-      };
+const handleEditData = async () => {
+  try {
+    const token = localStorage.getItem('victuraAuthToken');
 
-      const response = await axios.put(`${BaseUrl}/userAddress/${editAddress._id}`, addressData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        }
+    const addressData = {
+      name: formData.name,
+      email: formData.email,
+      state: formData.state,
+      city: formData.city,
+      line1: formData.line1,
+      line2: formData.line2,
+      line3: formData.line3,
+      locality: formData.locality,
+      landmark: formData.landmark,
+      contact: formData.contact,
+      zipcode: formData.zipcode,
+      addressType: formData.addressType,
+    };
+
+    const response = await axios.put(`${BaseUrl}/userAddress/${editAddress._id}`, addressData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      }
+    });
+
+    if (response.status === 200) {
+      toast.success('Address updated successfully!');
+      setIsEditing(false);
+      onSaveData(); // Refresh list
+      setFormData(initialForm);
+      setCurrentState('');
+    }
+  } catch (error) {
+    if (error.response?.data?.errors) {
+      const newErrors = {};
+      Object.keys(error.response.data.errors).forEach(key => {
+        newErrors[key] = error.response.data.errors[key];
       });
-
-      if (response.status === 200) {
-        setIsEditing(false)
-        toast.success('Address updated successfully!');
-
-      }
-    } catch (error) {
-      if (error.response && error.response.data && error.response.data.errors) {
-        const newErrors = {};
-        Object.keys(error.response.data.errors).forEach(key => {
-          newErrors[key] = error.response.data.errors[key];
-        });
-        setErrors(newErrors);
-      } else {
-        console.error('Error updating address:', error);
-        toast.error('Failed to update address');
-      }
+      setErrors(newErrors);
+    } else {
+      console.error('Error updating address:', error);
     }
-  };
+  }
+};
 
-  const handleSave = () => {
-    if (!isEditing) {
-      alert()
-      handleSubmit()
-    }
-    handleEditData()
-  };
+
+const handleSave = () => {
+  if (isEditing) {
+    handleEditData();
+  } else {
+    handleSubmit();
+  }
+};
 
   return (
     <>
@@ -190,84 +183,63 @@ function Address({ editAddress, isEditing, onSave, setIsEditing, onSaveData }) {
         <h3>Shipping address</h3>
         <div className="row">
           <div style={{ width: "90%" }}>
+            {[
+              { name: 'name', placeholder: 'Name*' },
+              { name: 'email', placeholder: 'Email*' },
+              { name: 'contact', placeholder: 'Mobile*' },
+              { name: 'zipcode', placeholder: 'Zipcode*' },
+              { name: 'line1', placeholder: 'Address line1*' },
+              { name: 'line2', placeholder: 'Address line2' },
+              { name: 'line3', placeholder: 'Address line3' },
+              { name: 'locality', placeholder: 'Locality' },
+              { name: 'landmark', placeholder: 'Landmark' },
+              { name: 'city', placeholder: 'City*' },
+            ].map(({ name, placeholder }) => (
+              <div className="input-box d-flex" key={name}>
+                <div className="w-100">
+                  <input
+                    type="text"
+                    className='form-control'
+                    name={name}
+                    placeholder={placeholder}
+                    value={formData[name]}
+                    onChange={handleChange}
+                  />
+                  {errors[name] && <small className="text-danger">{errors[name]}</small>}
+                </div>
+              </div>
+            ))}
 
-            <div className="input-box d-flex">
-              <div className="d-flex align-items-center">
-                {addressTypes.map((type) => (
-                  <div className="form-check me-3" key={type.value}>
-                    <input
-                      className="form-check-input"
-                      type="radio"
-                      name="addressType"
-                      id={type.label}
-                      value={type.value}
-                      checked={formData.addressType === type.value}
-                      onChange={(e) => setFormData({ ...formData, addressType: e.target.value })}
-                    />
-                    <label className="form-check-label" htmlFor={type.label}>
-                      {type.icon} {type.label}
-                    </label>
-                  </div>
-                ))}
-              </div>
-              <div className="w-100">
-                {errors.addressType && <small className="text-danger" style={{ left: "30px", bottom: "-10px" }}>{errors.addressType}</small>}
-              </div>
-            </div>
-            {/* Name */}
-            <div className="input-box d-flex">
-              {/* <label>Name*</label> */}
-              <div className="w-100">
-                <input type="text" className='form-control' name="name" placeholder='Name*' value={formData.name} onChange={handleChange} />
-                {errors.name && <small className="text-danger" style={{ left: "58px", bottom: "-17px" }}>{errors.name}</small>}
-              </div>
-            </div>
-
-            {/* Email */}
-            <div className="input-box d-flex">
-              {/* <label>Email*</label> */}
-              <div className="w-100">
-                <input type="text" className='form-control' name="email" placeholder='Email*' value={formData.email} onChange={handleChange} />
-                {errors.email && <small className="text-danger" style={{ left: "58px", bottom: "-17px" }}>{errors.email}</small>}
-              </div>
-            </div>
-
-            {/* Country/State/City */}
             <CountryStateCity
-              setCountry={setCountry}
-              country={country}
-              currentCity={currentCity}
-              setCurrentCity={setCurrentCity}
               currentState={currentState}
               setCurrentState={setCurrentState}
               errors={errors}
             />
 
-            {/* Street Address */}
-            <div className="input-box d-flex" style={{ height: "120px" }}>
-              {/* <label>Street address*</label> */}
-              <div className="w-100">
-                <input type="text" className='form-control' name="address" placeholder='Address' value={formData.address} onChange={handleChange} />
-                {errors.address && <small className="text-danger" style={{ left: "120px", bottom: "-17px" }}>{errors.address}</small>}
-              </div>
-            </div>
-
-            {/* Phone */}
             <div className="input-box d-flex">
-              {/* <label>Phone Number*</label> */}
-              <div className="w-100">
-                <input type="text" className='form-control' placeholder='Mobile*' name="mobile" value={formData.mobile} onChange={handleChange} />
-                {errors.mobile && <small className="text-danger" style={{ left: "120px", bottom: "-17px" }}>{errors.mobile}</small>}
+              <div className="d-flex align-items-center">
+                {addressTypes.map((type) => (
+                  <div className="form-check me-3 ps-0" key={type.value}>
+                    <input
+                      className="form-check-input"
+                      type="radio"
+                      name="addressType"
+                      id={`addressType-${type.value}`}
+                      value={type.value}
+                      checked={formData.addressType === type.value}
+                      onChange={(e) => setFormData(prev => ({ ...prev, addressType: e.target.value }))}
+                    />
+                    <label className="form-check-label" htmlFor={`addressType-${type.value}`}>
+                      {type.label}
+                    </label>
+                  </div>
+                ))}
               </div>
-            </div>
-
-            {/* Zipcode */}
-            <div className="input-box d-flex">
-              {/* <label>Zipcode*</label> */}
-              <div className="w-100">
-                <input type="text" placeholder='Zipcode*' className='form-control' name="pincode" value={formData.pincode} onChange={handleChange} />
-                {errors.pincode && <small className="text-danger" style={{ left: "72px", bottom: "-17px" }}>{errors.pincode}</small>}
-              </div>
+              {errors.addressType && (
+                <div className="w-100">
+                  <small className="text-danger">{errors.addressType}</small>
+                </div>
+              )}
             </div>
 
             <button
@@ -284,4 +256,6 @@ function Address({ editAddress, isEditing, onSave, setIsEditing, onSaveData }) {
   );
 }
 
-export default Address;
+export default Address; 
+
+
